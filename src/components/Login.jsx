@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, TextInput, Button, View, Image } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, ScrollView } from 'react-native';
 import { Button_login } from '../../data/buttons';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
@@ -19,31 +19,32 @@ const Login = () => {
   };
 
   return (
-  <View style={styles.container}>
-
-    <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')}></Image>
-    <Text style={styles.title}> Sign In</Text>
-    <Text style={styles.labels}>   Username</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="name@example.com"
-    />
     
-    <Text style={styles.labels}>   Password</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="*******"
-      secureTextEntry={true}
-    />
-        
-    <Button_login />
-      <CheckBox
-        title= "Remember me"
-        checked={rememberMe}
-        onPress={() => setRememberMe(!rememberMe)}
-        containerStyle={styles.checkboxContainer}
-        textStyle={styles.text}
+    <View style={styles.container}>
+
+      <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')}></Image>
+      <Text style={styles.title}> Sign In</Text>
+      <Text style={styles.labels}>   Username</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="name@example.com"
       />
+      
+      <Text style={styles.labels}>   Password</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="*******"
+        secureTextEntry={true}
+      />
+          
+      <Button_login />
+        <CheckBox
+          title= "Remember me"
+          checked={rememberMe}
+          onPress={() => setRememberMe(!rememberMe)}
+          containerStyle={styles.checkboxContainer}
+          textStyle={styles.text}
+        />
 
     <View style={styles.row}>
       <TouchableOpacity>
@@ -54,10 +55,9 @@ const Login = () => {
         <Text style={styles.text_sign}>Sign Up</Text>
       </TouchableOpacity>
     </View>
-        
-  </View>
+          
+    </View>
   )
-  
   
 };
 
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     padding: 15,
-    //marginTop: 40
+    justifyContent: 'center'
   },
   input: {
     borderColor: '#ccc',
@@ -101,16 +101,18 @@ const styles = StyleSheet.create({
   text_pass: {
     fontSize: 18,
     paddingHorizontal: 15,
-    //marginTop: 70,
-    marginLeft: 15
+    marginTop: 70,
+    marginLeft: 15,
+    
   },
   text_sign: {
     fontSize: 18,
     textAlign: 'right',
     fontWeight: 'bold',
     paddingHorizontal: 15,
-    //marginTop: 70,
-    marginRight: 15
+    marginTop: 70,
+    marginRight: 15,
+    
   },
   row: {
     flexDirection: 'row',
