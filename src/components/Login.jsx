@@ -3,7 +3,6 @@ import { TouchableOpacity, StyleSheet, Text, TextInput, Button, View, Image } fr
 import { Button_login } from '../../data/buttons';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import Perfil from "./Perfil.jsx";
 
 //Screen
 //import Perfil from './perfil';
@@ -47,7 +46,7 @@ const Login = () => {
       />
 
     <View style={styles.row}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity>
         <Text style={styles.text_pass}>Forgot Password?</Text>
       </TouchableOpacity>
 
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     padding: 15,
-    marginTop: 40
+    //marginTop: 40
   },
   input: {
     borderColor: '#ccc',
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
   text_pass: {
     fontSize: 18,
     paddingHorizontal: 15,
-    marginTop: 70,
+    //marginTop: 70,
     marginLeft: 15
   },
   text_sign: {
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontWeight: 'bold',
     paddingHorizontal: 15,
-    marginTop: 70,
+    //marginTop: 70,
     marginRight: 15
   },
   row: {

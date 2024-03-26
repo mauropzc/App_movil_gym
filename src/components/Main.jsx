@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 //Pantallas
 import Login from "./Login.jsx";
 import Perfil from './Perfil.jsx';
+import Menu from './Menu.jsx';
 
 const Stack = createStackNavigator();
 
