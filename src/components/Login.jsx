@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, ScrollView } from 'react-native';
-import { Button_login } from '../../data/buttons';
+import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image } from 'react-native';
+import { Button_pers } from '../../data/buttons';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
@@ -15,8 +15,12 @@ const Login = () => {
   const [isPressed, setIsPressed] = useState(false);
 
   const onPress = () => {
-      navigate ('perfil')
+     navigate ('perfil')
   };
+
+  const onPressPass = () => {
+     navigate ('Forgot')
+  }
 
   return (
     
@@ -37,7 +41,7 @@ const Login = () => {
         secureTextEntry={true}
       />
           
-      <Button_login />
+      <Button_pers />
         <CheckBox
           title= "Remember me"
           checked={rememberMe}
@@ -47,7 +51,7 @@ const Login = () => {
         />
 
     <View style={styles.row}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPressPass}>
         <Text style={styles.text_pass}>Forgot Password?</Text>
       </TouchableOpacity>
 
@@ -63,7 +67,7 @@ const Login = () => {
 
 const styles = StyleSheet.create({
   container: {
-    //alignItems: 'left'
+    flex: 1
   },
   title: {
     fontSize: 40,
@@ -78,7 +82,8 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     width: '90%',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    backgroundColor: '#ffffff'
   },
   labels: {
     fontSize: 20,

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-export function Button_login() {
+export function Button_pers() {
     return (
         <TouchableOpacity
             style = {{
