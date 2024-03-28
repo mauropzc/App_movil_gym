@@ -1,112 +1,124 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, TextInput, Button, View, Image } from 'react-native';
-import { Button_login } from '../../data/buttons';
-import { CheckBox } from 'react-native-elements';
+import React from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Perfil = () => {
-    const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [edad, setEdad] = useState('');
-    const [email, setEmail] = useState('');
-    const [usuario, setUsuario] = useState('');
-    const [contraseña, setContraseña] = useState('');
-  
-    const handleEdit = () => {
-      // TODO: Implementar la lógica para actualizar la información del usuario
-      // Enviar la información actualizada al servidor y manejar la respuesta
-      console.log('Información actualizada!');
-    };
-  
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Editar perfil</Text>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Nombre</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setNombre}
-            value={nombre}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Apellido</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setApellido}
-            value={apellido}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Edad</Text>
-          <TextInput
-            style={styles.input}
-            keyboardType="numeric"
-            onChangeText={(text) => {
-              const newText = text.replace(/[^0-9\b]/g, '');
-              setEdad(newText);
-            }}
-            value={edad}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setEmail}
-            value={email}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Usuario</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setUsuario}
-            value={usuario}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Contraseña</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setContraseña}
-            value={contraseña}
-          />
-        </View>
-        <Button title="Editar" onPress={handleEdit} style={styles.button} />
-      </View>
-    );
+  const { navigate } = useNavigation();
+  const onPress = () => {
+    navigate ('Physic')
   };
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    title: {
-      fontSize: 40,
-      fontWeight: 'bold',
-    },
-    inputContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      margin: 10,
-      width: '95%',
-    },
-    label: {
-      fontSize: 18,
-      marginRight: 10,
-    },
-    input: {
-      borderColor: '#ccc',
-      borderWidth: 1,
-      borderRadius: 5,
-      padding: 10,
-      width: '80%',
-    },
-    button: {
-      justifyContent: 'flex-end',
-    },
-  });
-  
-  export default Perfil;
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>PERSONAL INFORMATION</Text>
+      </View>
+      <View style={styles.formContainer}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Name:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your name"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Last Name:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your last name"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Age:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your age"
+            keyboardType="numeric"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Username:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your username"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Password:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your password"
+            secureTextEntry={true}
+          />
+        </View>
+      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onPress} // Navegar a Cod2 al presionar el botón
+      >
+        <Text style={styles.buttonText}>NEXT</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    //justifyContent: 'center',
+    marginTop: '10%',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  titleContainer: {
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  formContainer: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  inputContainer: {
+    marginBottom: 10,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    width: '100%',
+  },
+  button: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: '#007bff',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
+
+export default Perfil;

@@ -14,6 +14,10 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
 
+  const onPressLog = () => {
+    navigate ('Menu')
+ };
+
   const onPress = () => {
      navigate ('perfil')
   };
@@ -41,7 +45,21 @@ const Login = () => {
         secureTextEntry={true}
       />
           
-      <Button_pers />
+      <TouchableOpacity
+        onPress={onPressLog}
+        style = {{
+            ...styles.button,
+            backgroundColor: '#2196f3'
+        }}
+      >  
+        <Text
+            style = {{
+                ...styles.buttonText,
+                color: '#f1f1f1'
+            }}
+        >Log in</Text>
+      </TouchableOpacity>
+
         <CheckBox
           title= "Remember me"
           checked={rememberMe}
@@ -122,7 +140,20 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  }
+  },
+
+  button: {
+    alignSelf: 'center',
+    borderRadius: 20,
+    paddingVertical: 15,
+    width: '90%',
+    margin: 20
+  },
+
+  buttonText: {
+    textAlign: 'center',
+    fontSize: 20
+}
 });
 
 export default Login
