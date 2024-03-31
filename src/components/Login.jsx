@@ -37,7 +37,7 @@ const Login = () => {
     if (user) {
       // Permitir el ingreso a la aplicación
       //console.log('Usuario autenticado correctamente');
-      Alert.alert('Usuario autenticado correctamente');
+      console.log('Inicio correcto')
       navigate ('Menu')
     } else {
       // Mostrar mensaje de error
