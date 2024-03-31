@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image } from 'react-native';
-import { Button_pers } from '../../data/buttons';
+import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 //Screen
 //import Perfil from './perfil';
+const users = [
+  { username: 'user1', password: 'password1' },
+  { username: 'user2', password: 'password2' },
+];
 
 const Login = () => {
+
   const { navigate } = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('User or pass incorrect');
   const [rememberMe, setRememberMe] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
 
@@ -26,6 +31,21 @@ const Login = () => {
      navigate ('Forgot')
   }
 
+  const handleLogin = () => {
+    const user = users.find(user => user.username === username && user.password === password);
+
+    if (user) {
+      // Permitir el ingreso a la aplicación
+      //console.log('Usuario autenticado correctamente');
+      Alert.alert('Usuario autenticado correctamente');
+      navigate ('Menu')
+    } else {
+      // Mostrar mensaje de error
+      Alert.alert('Error', errorMessage);
+    }
+  };
+
+
   return (
     
     <View style={styles.container}>
@@ -36,6 +56,7 @@ const Login = () => {
       <TextInput
         style={styles.input}
         placeholder="name@example.com"
+        onChangeText={setUsername}
       />
       
       <Text style={styles.labels}>   Password</Text>
@@ -43,10 +64,12 @@ const Login = () => {
         style={styles.input}
         placeholder="*******"
         secureTextEntry={true}
+        onChangeText={setPassword}
       />
           
       <TouchableOpacity
-        onPress={onPressLog}
+        onPress={handleLogin}
+      
         style = {{
             ...styles.button,
             backgroundColor: '#2196f3'
@@ -90,20 +113,21 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    padding: 15,
+    padding: '5%',
     justifyContent: 'center'
   },
   input: {
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
-    padding: 10,
+    padding: '3%',
     margin: 10,
     width: '90%',
     alignSelf: 'center',
     backgroundColor: '#ffffff'
   },
   labels: {
+
     fontSize: 20,
     marginLeft: 15,
     fontWeight: 'bold'
@@ -124,7 +148,6 @@ const styles = StyleSheet.create({
   text_pass: {
     fontSize: 18,
     paddingHorizontal: 15,
-    marginTop: 70,
     marginLeft: 15,
     
   },
@@ -133,7 +156,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontWeight: 'bold',
     paddingHorizontal: 15,
-    marginTop: 70,
     marginRight: 15,
     
   },

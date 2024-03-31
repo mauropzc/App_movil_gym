@@ -34,9 +34,13 @@ const Menu = () => {
    
    };
 
-    const onPressProf = () => {
-      navigate ('Profile')
-    };
+  const onPressProf = () => {
+    navigate ('Profile')
+  };
+
+  const onPressFood = () => {
+    navigate ('Food')
+  }
 
   const daysOfWeek = [];
   for (let i = 1; i <= 30; i++) {
@@ -74,7 +78,7 @@ const Menu = () => {
         <TouchableOpacity style={styles.icon } onPress={onPress2}>
             <Image source={require('./../../assets/img/exersise.png')} style={styles.buttonIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.icon } onPress={onPress2}>
+        <TouchableOpacity style={styles.icon } onPress={onPressFood}>
             <Image source={require('./../../assets/img/food.png')} style={styles.buttonIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.icon } onPress={onPress2}>

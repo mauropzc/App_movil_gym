@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const EditProfile = () => {
 
-    const { navigate } = useNavigation();
+  const { navigate } = useNavigation();
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [edad, setEdad] = useState('');
