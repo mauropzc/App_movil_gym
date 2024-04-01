@@ -1,79 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-//import RNFS from 'react-native-fs';
 
 const Perfil = () => {
-  //const [usuarios, setUsuarios] = useState([]);
-  //const [nombre, setNombre] = useState('');
-  //const [apellido, setApellido] = useState('');
-  //const pathToFile = `${RNFS.DocumentDirectoryPath}/usuarios.json`;
   const { navigate } = useNavigation();
-
-  /*useEffect(() => {
-    cargarUsuarios();
-  }, []);
-
-  const handleSubmit = () => {
-    // ...
-    guardarUsuarios();
-  };
-
-  const handleChangeNombre = (text) => {
-    setNombre(text);
-  };
-  
-  const handleChangeApellido = (text) => {
-    setApellido(text);
-  };
-
-  const nuevoUsuario = {
-    nombre,
-    apellido,
-    edad: 25, 
-    email: "ana.perez@correo.com", 
-    usuario: "ana_perez", 
-    contraseña: "123456", 
-  };
-  
-  const agregarUsuario = (nuevoUsuario) => {
-    setUsuarios([...usuarios, nuevoUsuario]);
-    actualizarArchivoJSON();
-  };
-
-  const guardarUsuarios = async () => {
-    try {
-      await AsyncStorage.setItem('usuarios', JSON.stringify(usuarios));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
-  const cargarUsuarios = async () => {
-    try {
-      const usuariosJson = await AsyncStorage.getItem('usuarios');
-      if (usuariosJson !== null) {
-        setUsuarios(JSON.parse(usuariosJson));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const actualizarArchivoJSON = async () => {
-    try {
-      await RNFS.writeFile(pathToFile, JSON.stringify(usuarios));
-    } catch (error) {
-      console.log(error);
-    }
-  };*/
-
+  //Gestión de usuarios-----------------------------------
   const onPress = () => {
     navigate ('Physic')
   };
-
-  //Gestión de usuarios-----------------------------------
-
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -85,7 +19,6 @@ const Perfil = () => {
           <TextInput
             style={styles.input}
             placeholder="Enter your name"
-            //onChangeText={handleChangeNombre}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -93,7 +26,6 @@ const Perfil = () => {
           <TextInput
             style={styles.input}
             placeholder="Enter your last name"
-            //onChangeText={handleChangeApellido}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -117,6 +49,7 @@ const Perfil = () => {
           <TextInput
             style={styles.input}
             placeholder="Enter your username"
+            
           />
         </View>
         <View style={styles.inputContainer}>
@@ -125,6 +58,7 @@ const Perfil = () => {
             style={styles.input}
             placeholder="Enter your password"
             secureTextEntry={true}
+            
           />
         </View>
       </View>

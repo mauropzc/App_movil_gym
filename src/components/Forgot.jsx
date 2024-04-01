@@ -1,10 +1,9 @@
 import React from "react";
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Platform, Linking } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, TextInput, View } from 'react-native';
 
 const Forgot = () => {
     const { navigate } = useNavigation();
-    const [email, setEmail] = useState('');
     //Funcion para llevar a la interfaz de checkear email
     const onPress = () => {
         navigate ('Check')
@@ -22,7 +21,6 @@ const Forgot = () => {
             <TextInput
                 style={styles.input}
                 placeholder="name@example.com"
-                onChangeText={setEmail}
             />
 
             <TouchableOpacity

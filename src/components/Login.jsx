@@ -9,10 +9,10 @@ const users = [
   { username: 'user1', password: 'password1' },
   { username: 'user2', password: 'password2' },
 ];
-
 const Login = () => {
 
   const { navigate } = useNavigation();
+  //const [users, setUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('User or pass incorrect');
@@ -179,4 +179,3 @@ const styles = StyleSheet.create({
 });
 
 export default Login
-
