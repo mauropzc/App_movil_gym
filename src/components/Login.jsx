@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
+//import { getUsuarios } from './Perfil'
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 //Screen
 //import Perfil from './perfil';
@@ -11,9 +11,8 @@ const users = [
   { username: 'user2', password: 'password2' },
 ];
 const Login = () => {
-
   const { navigate } = useNavigation();
-  //const [users, setUsers] = useState([]);
+  //const usuarios = getUsuarios();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('User or pass incorrect');
