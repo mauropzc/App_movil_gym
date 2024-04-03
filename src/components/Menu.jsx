@@ -1,46 +1,34 @@
 
-import React, {useState} from 'react';
+import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import MenuBar from './MenuBar';
 
 const Menu = () => {
 
-
-  const { navigate } = useNavigation();
+const { navigate } = useNavigation();
 
   const ejerciciosPierna = [
     { ejercicio: require('./../../assets/img/Ejp1.gif'), nombre: 'STEPUPK NEELIFT REVERSE', series: '4', repeticiones:'20' },
-    { ejercicio: require('./../../assets/img/Ejp2.gif'), nombre: 'SQUAT THRUST', series: '4', repeticiones:'25' },
-    { ejercicio: require('./../../assets/img/Ejp3.gif'), nombre: 'SQUAT_JUMP', series: '3', repeticiones:'30' },
+    { ejercicio: require('./../../assets/img/Ejp2.gif'), nombre: 'SQUAT THRUST', series: '4', repeticiones:'22' },
+    { ejercicio: require('./../../assets/img/Ejp3.gif'), nombre: 'SQUAT JUMP', series: '3', repeticiones:'20' },
   ];
 
   const ejerciciosEspalda = [
-    { ejercicio: require('./../../assets/img/Eje1.gif'), nombre: 'SUPERMAN', series: '4', repeticiones:'25' },
-    { ejercicio: require('./../../assets/img/Eje2.gif'), nombre: 'T-FLEXION', series: '3', repeticiones:'28' },
-    { ejercicio: require('./../../assets/img/Eje3.gif'), nombre: 'INVERTED ROW', series: '4', repeticiones:'22' },
+    { ejercicio: require('./../../assets/img/Eje1.gif'), nombre: 'SUPERMAN', series: '4', repeticiones:'22' },
+    { ejercicio: require('./../../assets/img/Eje2.gif'), nombre: 'T-FLEXION', series: '3', repeticiones:'20' },
+    { ejercicio: require('./../../assets/img/Eje3.gif'), nombre: 'INVERTED ROW', series: '4', repeticiones:'15' },
   ];
 
   const ejerciciosPecho = [
-    { ejercicio: require('./../../assets/img/Ejp1.gif'), nombre: 'STEPUPK NEELIFT REVERSE', series: '4', repeticiones:'20' },
-    { ejercicio: require('./../../assets/img/Ejp2.gif'), nombre: 'SQUAT THRUST', series: '4', repeticiones:'25' },
-    { ejercicio: require('./../../assets/img/Ejp3.gif'), nombre: 'SQUAT_JUMP', series: '3', repeticiones:'30' },
+    { ejercicio: require('./../../assets/img/Ejpe1.gif'), nombre: 'DIAMOND PUSHUP', series: '4', repeticiones:'15' },
+    { ejercicio: require('./../../assets/img/Ejpe2.gif'), nombre: 'ONE ARM PUSHUP', series: '2', repeticiones:'10' },
+    { ejercicio: require('./../../assets/img/Ejpe3.gif'), nombre: 'SPIDERMAN PUSHUP', series: '3', repeticiones:'5' },
   ];
 
   const onPress = (ejerciciosArray) => {
     navigate ('Ejercicio', { ejerciciosArray })
    };
-  
-  const onPress2 = () => {
-   
-   };
-
-  const onPressProf = () => {
-    navigate ('Profile')
-  };
-
-  const onPressFood = () => {
-    navigate ('Food')
-  }
 
   const daysOfWeek = [];
   for (let i = 1; i <= 30; i++) {
@@ -59,13 +47,13 @@ const Menu = () => {
           ))}
         </ScrollView>
       </View>
-      <View style={{height:'75%', top:35}}>
+      <View style={{height:'74%', top:35}}>
         <Text style={styles.tittleText}>Beginner</Text>
         <TouchableOpacity style={styles.button } onPress={() => onPress(ejerciciosPierna)}>
           <Image source={require('./../../assets/img/leg.png')} style={styles.buttonImage} />
           <View style={styles.overlay}><Text style={styles.overlayText}>LEGS</Text></View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => onPress(ejerciciosEspalda)}>
+        <TouchableOpacity style={styles.button} onPress={() => onPress(ejerciciosPecho)}>
           <Image source={require('./../../assets/img/chest.png')} style={styles.buttonImage} />
           <View style={styles.overlay}><Text style={styles.overlayText}>CHEST</Text></View>
         </TouchableOpacity>
@@ -74,20 +62,9 @@ const Menu = () => {
           <View style={styles.overlay}><Text style={styles.overlayText}>BACK</Text></View>
         </TouchableOpacity>
       </View>
-      <View style={styles.menubar}>
-        <TouchableOpacity style={styles.icon } onPress={onPress2}>
-            <Image source={require('./../../assets/img/exersise.png')} style={styles.buttonIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon } onPress={onPressFood}>
-            <Image source={require('./../../assets/img/food.png')} style={styles.buttonIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon } onPress={onPress2}>
-            <Image source={require('./../../assets/img/report.png')} style={styles.buttonIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon } onPress={onPressProf}>
-            <Image source={require('./../../assets/img/profile.png')} style={styles.buttonIcon} />
-        </TouchableOpacity>
-      </View>
+
+      <MenuBar navigation={navigate} />
+
     </View>
   );
 };
@@ -137,6 +114,12 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
 
+  buttonImage:{
+    height: '100%',
+    width:'100%',
+    borderRadius: 25,
+  },
+  
   icon: {
     flex: 1,
     alignItems: 'center',
@@ -147,12 +130,6 @@ const styles = StyleSheet.create({
     width:'80%',
     borderRadius: 25,
  },
-
-  buttonImage:{
-      height: '100%',
-      width:'100%',
-      borderRadius: 25,
-  },
   
   menubar: {
     position: 'absolute',

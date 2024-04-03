@@ -1,7 +1,8 @@
 //Edit
 import React, {useState} from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import MenuBar from './MenuBar';
 
 const Profile = () => {
 
@@ -34,6 +35,7 @@ const Profile = () => {
           <Image source={require('./../../assets/img/pencil.png')} style={styles.buttonIconBar} />
         </TouchableOpacity>
       </View>
+
       <View style={styles.body}>
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/user.png')} style={{height: 45, width:45}} />
@@ -52,20 +54,7 @@ const Profile = () => {
         </View>
       </View>
       
-      <View style={styles.menubar}>
-        <TouchableOpacity style={styles.icon } onPress={onPress2}>
-            <Image source={require('./../../assets/img/exersise.png')} style={styles.buttonIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon } onPress={onPress2}>
-            <Image source={require('./../../assets/img/food.png')} style={styles.buttonIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon } onPress={onPress2}>
-            <Image source={require('./../../assets/img/report.png')} style={styles.buttonIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon } onPress={onPress2}>
-            <Image source={require('./../../assets/img/profile.png')} style={styles.buttonIcon} />
-        </TouchableOpacity>
-      </View>
+      <MenuBar navigation={navigate} />
     </View>
   );
 };
@@ -105,31 +94,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  icon: {
-    flex: 1,
-    alignItems: 'center',
-  },
-
   iconBar: {
     flex: 1,
     alignItems: 'center',
   },
 
-  buttonIcon:{
-    height: '80%',
-    width:'80%',
-    borderRadius: 25,
-  },
-
- buttonIconBar:{
+  buttonIconBar:{
     height: '40%',
     width: '60%',
- },
-
-  buttonImage:{
-    height: '100%',
-    width:'100%',
-    borderRadius: 25,
   },
   
   bar: {
@@ -137,19 +109,6 @@ const styles = StyleSheet.create({
     height: '10%',
     flexDirection: 'row',
     borderWidth: 0.5,
-    alignItems: 'center',
-  },
-  
-  menubar: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: '10%',
-    flexDirection: 'row',
-    paddingHorizontal: 15,
-    borderWidth: 0.5,
-    borderColor: '#767676',
-    borderRadius: 25,
     alignItems: 'center',
   },
 

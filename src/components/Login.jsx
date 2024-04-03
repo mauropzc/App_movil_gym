@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 //Screen
 //import Perfil from './perfil';
@@ -49,7 +50,6 @@ const Login = () => {
   return (
     
     <View style={styles.container}>
-
       <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')}></Image>
       <Text style={styles.title}> Sign In</Text>
       <Text style={styles.labels}>   Username</Text>
@@ -91,15 +91,15 @@ const Login = () => {
           textStyle={styles.text}
         />
 
-    <View style={styles.row}>
-      <TouchableOpacity onPress={onPressPass}>
-        <Text style={styles.text_pass}>Forgot Password?</Text>
-      </TouchableOpacity>
+      <View style={styles.row}>
+        <TouchableOpacity onPress={onPressPass}>
+          <Text style={styles.text_pass}>Forgot Password?</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={onPress}>
-        <Text style={styles.text_sign}>Sign Up</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity onPress={onPress}>
+          <Text style={styles.text_sign}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
           
     </View>
   )
