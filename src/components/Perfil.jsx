@@ -42,65 +42,66 @@ const Perfil = () => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>PERSONAL INFORMATION</Text>
       </View>
-      <View style={styles.formContainer}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Name:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your name"
-            value={name}
-            onChangeText={(text) => setName(text)}
-          />
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Name:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your name"
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Last Name:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your last name"
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Age:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your age"
+              keyboardType="numeric"
+              value={age}
+              onChangeText={(text) => setAge(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Email:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your email"
+              keyboardType="email-address"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Username:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your username"
+              value={user}
+              onChangeText={(text) => setuser(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Password:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your password"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
         </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Last Name:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your last name"
-            value={lastName}
-            onChangeText={(text) => setLastName(text)}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Age:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your age"
-            keyboardType="numeric"
-            value={age}
-            onChangeText={(text) => setAge(text)}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your email"
-            keyboardType="email-address"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Username:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your username"
-            value={user}
-            onChangeText={(text) => setuser(text)}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Password:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your password"
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-        </View>
-      </View>
+
       <TouchableOpacity
         style={styles.button}
         onPress={agregarUsuario}
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '100%',
-    marginBottom: 20,
+    marginTop: '10%',
   },
   inputContainer: {
     marginBottom: 10,
@@ -148,18 +149,22 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: '#007bff',
+    width: '28%',
+    marginTop: '10%',
+    backgroundColor: '#268de8',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 20,
+    marginBottom: '5%',
+    flexDirection: 'row', 
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end'
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    paddingHorizontal: '22%',
   },
 });
 
