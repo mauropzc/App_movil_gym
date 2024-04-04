@@ -153,18 +153,18 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     backgroundColor: '#268de8',
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 25,
     marginBottom: '5%',
     flexDirection: 'row', 
     justifyContent: 'flex-end',
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
   },
   buttonText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
-    paddingHorizontal: '22%',
+    textAlign: 'center'
   },
 });
 

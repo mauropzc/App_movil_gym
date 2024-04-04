@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   logo: {
     //marginTop: 10,
     width: '100%',
-    height: '45%',
+    height: '40%',
     resizeMode: 'cover',
   },
   checkboxContainer: {
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     
   },
   row: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
