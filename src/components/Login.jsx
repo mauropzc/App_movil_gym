@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-//import { getUsuarios } from './Perfil'
-//import AsyncStorage from '@react-native-async-storage/async-storage';
-//Screen
-//import Perfil from './perfil';
-const users = [
-  { username: 'user1', password: 'password1' },
-  { username: 'user2', password: 'password2' },
-];
+import useGlobalContext from './hooks/useGlobalContext';
+
+
 const Login = () => {
   const { navigate } = useNavigation();
+  const { usuarios } = useGlobalContext();
   //const usuarios = getUsuarios();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +28,7 @@ const Login = () => {
   }
 
   const handleLogin = () => {
-    const user = users.find(user => user.username === username && user.password === password);
+    const user = usuarios.find(user => user.username === username && user.password === password);
 
     if (user) {
       // Permitir el ingreso a la aplicación

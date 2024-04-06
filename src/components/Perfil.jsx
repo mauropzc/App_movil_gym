@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import useGlobalContext from './hooks/useGlobalContext';
 
 
 const Perfil = () => {
+  const { setUsuarioPerfil } = useGlobalContext();
+
   const { navigate } = useNavigation();
-  const [usuarios, setUsuarios] = useState([]);
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [age, setAge] = useState('');
@@ -13,22 +15,21 @@ const Perfil = () => {
   const [user, setuser] = useState('');
   const [password, setPassword] = useState('');
   //Gestión de usuarios-----------------------------------
-  
   const agregarUsuario = () => {
     const nuevoUsuario = {
       nombre: name,
       apellido: lastName,
       edad: age,
       correo: email,
-      usuario: user,
-      contraseña: password
+      username: user,
+      password: password
     };
-
-    setUsuarios([...usuarios, nuevoUsuario]);
+  
+    setUsuarioPerfil(nuevoUsuario);
     
     navigate ('Physic')
-    console.log(usuarios);
   };
+  
 
   /*const getUsuarios = () => {
     return usuarios;

@@ -1,15 +1,29 @@
-import React from 'react';
+import { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import useGlobalContext from './hooks/useGlobalContext';
+//import { agregarUsuario } from './Perfil';
 
 const Physic = () => {
+  const { crearUsuario } = useGlobalContext();
   const { navigate } = useNavigation();
   const { width, height } = Dimensions.get('window');
+  const [altura, setAltura] = useState('');
   const container1Height = height * 0.1; // Porcentaje para titulo
 
-  const onPress = () => {
-    navigate('Login');
+
+  const agregarUsuario = () => {
+    const nuevoUsuario = {
+      altura: altura,
+      
+    };
+  
+    crearUsuario(nuevoUsuario);
+    navigate ('Login')
+    
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -23,6 +37,8 @@ const Physic = () => {
             <TextInput
               style={styles.input}
               placeholder="Enter..."
+              value={altura}
+              onChangeText={(text) => setAltura(text)}
             />
             <View style={styles.blueBox}>
               <Text style={styles.blueBoxText}>cm</Text>
@@ -78,7 +94,7 @@ const Physic = () => {
             borderRadius: Dimensions.get('window').width * 0.07,
           },
         ]}
-        onPress={onPress}
+        onPress={agregarUsuario}
       >
         <Text style={styles.buttonText}>NEXT</Text>
       </TouchableOpacity>
