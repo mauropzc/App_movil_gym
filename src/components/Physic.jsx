@@ -9,13 +9,16 @@ const Physic = () => {
   const { navigate } = useNavigation();
   const { width, height } = Dimensions.get('window');
   const [altura, setAltura] = useState('');
+  const [peso, setPeso] = useState('');
+  const [peso_meta, setPeso_meta] = useState('');
   const container1Height = height * 0.1; // Porcentaje para titulo
 
 
   const agregarUsuario = () => {
     const nuevoUsuario = {
       altura: altura,
-      
+      peso: peso,
+      peso_meta: peso_meta,
     };
   
     crearUsuario(nuevoUsuario);
@@ -51,6 +54,8 @@ const Physic = () => {
             <TextInput
               style={styles.input}
               placeholder="Enter..."
+              value={peso}
+              onChangeText={(text) => setPeso(text)}
             />
             <View style={styles.blueBox}>
               <Text style={styles.blueBoxText}>kg</Text>
@@ -64,6 +69,8 @@ const Physic = () => {
               style={styles.input}
               placeholder="Enter..."
               keyboardType="numeric"
+              value={peso_meta}
+              onChangeText={(text) => setPeso_meta(text)}
             />
             <View style={styles.blueBox}>
               <Text style={styles.blueBoxText}>kg</Text>
