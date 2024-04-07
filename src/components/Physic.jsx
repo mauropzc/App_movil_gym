@@ -11,6 +11,8 @@ const Physic = () => {
   const [altura, setAltura] = useState('');
   const [peso, setPeso] = useState('');
   const [peso_meta, setPeso_meta] = useState('');
+  const [goal, setGoal] = useState('Lose Fat');
+  const [level, setLevel] = useState('Beginner');
   const container1Height = height * 0.1; // Porcentaje para titulo
 
 
@@ -19,6 +21,8 @@ const Physic = () => {
       altura: altura,
       peso: peso,
       peso_meta: peso_meta,
+      meta: goal,
+      nivel: level
     };
   
     crearUsuario(nuevoUsuario);
@@ -80,13 +84,19 @@ const Physic = () => {
         <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Physical Goal</Text>
           <View style={styles.blueBox}>
-            <Text style={styles.blueBoxText}>Lose Fat</Text>
+            <Text style={styles.blueBoxText}
+              value={goal}
+            >Lose Fat
+            </Text>
           </View>
         </View>
         <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Physical Level</Text>
           <View style={styles.blueBox}>
-            <Text style={styles.blueBoxText}>Beginner</Text>
+            <Text style={styles.blueBoxText}
+              value={level}
+            >Beginner
+            </Text>
           </View>
         </View>
       </View>
