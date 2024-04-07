@@ -1,70 +1,111 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import useGlobalContext from './hooks/useGlobalContext';
+
 
 const Perfil = () => {
+  const { setUsuarioPerfil } = useGlobalContext();
+
   const { navigate } = useNavigation();
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [age, setAge] = useState('');
+  const [email, setEmail] = useState('');
+  const [user, setuser] = useState('');
+  const [password, setPassword] = useState('');
   //Gestión de usuarios-----------------------------------
-  const onPress = () => {
+  const agregarUsuario = () => {
+    const nuevoUsuario = {
+      nombre: name,
+      apellido: lastName,
+      edad: age,
+      correo: email,
+      username: user,
+      password: password
+    };
+  
+    setUsuarioPerfil(nuevoUsuario);
+    
     navigate ('Physic')
   };
+  
+
+  /*const getUsuarios = () => {
+    return usuarios;
+  };
+  
+  const onPress = () => {
+    navigate ('Physic')
+  };*/
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>PERSONAL INFORMATION</Text>
       </View>
-      <View style={styles.formContainer}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Name:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your name"
-          />
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Name:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your name"
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Last Name:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your last name"
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Age:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your age"
+              keyboardType="numeric"
+              value={age}
+              onChangeText={(text) => setAge(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Email:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your email"
+              keyboardType="email-address"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Username:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your username"
+              value={user}
+              onChangeText={(text) => setuser(text)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Password:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your password"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
         </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Last Name:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your last name"
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Age:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your age"
-            keyboardType="numeric"
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your email"
-            keyboardType="email-address"
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Username:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your username"
-            
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Password:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your password"
-            secureTextEntry={true}
-            
-          />
-        </View>
-      </View>
+
       <TouchableOpacity
         style={styles.button}
-        onPress={onPress}
+        onPress={agregarUsuario}
          // Navegar a Cod2 al presionar el botón
       >
         <Text style={styles.buttonText}>NEXT</Text>
@@ -92,7 +133,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '100%',
-    marginBottom: 20,
+    marginTop: '10%',
   },
   inputContainer: {
     marginBottom: 10,
@@ -109,19 +150,24 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: '#007bff',
+    width: '28%',
+    marginTop: '10%',
+    backgroundColor: '#268de8',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 25,
+    marginBottom: '5%',
+    flexDirection: 'row', 
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center'
   },
 });
 
 export default Perfil;
+//export { getUsuarios };

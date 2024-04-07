@@ -1,72 +1,117 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import useGlobalContext from './hooks/useGlobalContext';
+//import { agregarUsuario } from './Perfil';
 
 const Physic = () => {
+  const { crearUsuario } = useGlobalContext();
+  const { navigate } = useNavigation();
+  const { width, height } = Dimensions.get('window');
+  const [altura, setAltura] = useState('');
+  const [peso, setPeso] = useState('');
+  const [peso_meta, setPeso_meta] = useState('');
+  const [goal, setGoal] = useState('Lose Fat');
+  const [level, setLevel] = useState('Beginner');
+  const container1Height = height * 0.1; // Porcentaje para titulo
+
+
+  const agregarUsuario = () => {
+    const nuevoUsuario = {
+      altura: altura,
+      peso: peso,
+      peso_meta: peso_meta,
+      meta: goal,
+      nivel: level
+    };
+  
+    crearUsuario(nuevoUsuario);
+    navigate ('Login')
+    
+  };
+
+
+
   return (
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
+      <View style={[styles.titleContainer, { height: container1Height }]}>
         <Text style={styles.title}>PHYSICAL INFORMATION</Text>
       </View>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}></Text>
-      </View>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}></Text>
-      </View>
-      <View style={styles.formContainer}>
-        <View style={styles.inputContainer}>
+      <View style={[styles.formContainer, { marginTop: Dimensions.get('window').height * 0.02 }]}>
+        <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Height</Text>
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.input}
               placeholder="Enter..."
+              value={altura}
+              onChangeText={(text) => setAltura(text)}
             />
             <View style={styles.blueBox}>
               <Text style={styles.blueBoxText}>cm</Text>
             </View>
           </View>
         </View>
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Weight</Text>
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.input}
               placeholder="Enter..."
+              value={peso}
+              onChangeText={(text) => setPeso(text)}
             />
             <View style={styles.blueBox}>
               <Text style={styles.blueBoxText}>kg</Text>
             </View>
           </View>
         </View>
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Weight Goal</Text>
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.input}
               placeholder="Enter..."
               keyboardType="numeric"
+              value={peso_meta}
+              onChangeText={(text) => setPeso_meta(text)}
             />
             <View style={styles.blueBox}>
               <Text style={styles.blueBoxText}>kg</Text>
             </View>
           </View>
         </View>
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Physical Goal</Text>
           <View style={styles.blueBox}>
-            <Text style={styles.blueBoxText}>Lose Fat</Text>
+            <Text style={styles.blueBoxText}
+              value={goal}
+            >Lose Fat
+            </Text>
           </View>
         </View>
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Physical Level</Text>
           <View style={styles.blueBox}>
-            <Text style={styles.blueBoxText}>Beginner</Text>
+            <Text style={styles.blueBoxText}
+              value={level}
+            >Beginner
+            </Text>
           </View>
         </View>
       </View>
       <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log('Next button pressed')} // Aquí puedes añadir la lógica para navegar a la siguiente pantalla
+        style={[
+          styles.button,
+          {
+            bottom: Dimensions.get('window').height * 0.05,
+            right: Dimensions.get('window').width * 0.05,
+            paddingVertical: Dimensions.get('window').height * 0.015,
+            paddingHorizontal: Dimensions.get('window').width * 0.08,
+            borderRadius: Dimensions.get('window').width * 0.07,
+          },
+        ]}
+        onPress={agregarUsuario}
       >
         <Text style={styles.buttonText}>NEXT</Text>
       </TouchableOpacity>
@@ -77,69 +122,62 @@ const Physic = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: Dimensions.get('window').width * 0.05,
   },
   titleContainer: {
-    marginBottom: 20,
+    justifyContent: 'center',
+    width: '100%',
   },
   title: {
-    fontSize: 20,
+    fontSize: Dimensions.get('window').width * 0.06,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   formContainer: {
     width: '100%',
-    marginBottom: 20,
   },
   inputContainer: {
-    marginBottom: 10,
+    width: '100%',
   },
   label: {
-    fontSize: 16,
-    marginBottom: 5,
+    fontSize: Dimensions.get('window').width * 0.04,
+    marginBottom: Dimensions.get('window').height * 0.001,
   },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5,
+    marginBottom: Dimensions.get('window').height * 0.05,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    padding: 10,
-    flex: 1,
-    marginRight: 10,
+    padding: Dimensions.get('window').width * 0.025,
+    width: '70%',                                    
   },
   blueBox: {
-    backgroundColor: 'blue',
+    backgroundColor: '#268de8',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    padding: Dimensions.get('window').width * 0.025,
     borderRadius: 5,
   },
   blueBoxText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: Dimensions.get('window').width * 0.04,
   },
   button: {
     position: 'absolute',
-    bottom: 20,
-    right : 20,
-    backgroundColor: '#007bff',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#268de8',
+    borderRadius: Dimensions.get('window').width * 0.07,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: Dimensions.get('window').width * 0.04,
     fontWeight: 'bold',
     textAlign: 'center',
   },
 });
-
 
 export default Physic;

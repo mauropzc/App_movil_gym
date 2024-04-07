@@ -2,18 +2,13 @@ import React, { useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
-//import AsyncStorage from '@react-native-async-storage/async-storage';
-//Screen
-//import Perfil from './perfil';
-const users = [
-  { username: 'user1', password: 'password1' },
-  { username: 'user2', password: 'password2' },
-];
-const Login = () => {
+import useGlobalContext from './hooks/useGlobalContext';
 
+
+const Login = () => {
   const { navigate } = useNavigation();
-  //const [users, setUsers] = useState([]);
+  const { usuarios } = useGlobalContext();
+  //const usuarios = getUsuarios();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('User or pass incorrect');
@@ -33,7 +28,7 @@ const Login = () => {
   }
 
   const handleLogin = () => {
-    const user = users.find(user => user.username === username && user.password === password);
+    const user = usuarios.find(user => user.username === username && user.password === password);
 
     if (user) {
       // Permitir el ingreso a la aplicación
@@ -135,7 +130,7 @@ const styles = StyleSheet.create({
   logo: {
     //marginTop: 10,
     width: '100%',
-    height: '45%',
+    height: '40%',
     resizeMode: 'cover',
   },
   checkboxContainer: {
@@ -160,6 +155,7 @@ const styles = StyleSheet.create({
     
   },
   row: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
