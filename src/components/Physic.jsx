@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import useGlobalContext from './hooks/useGlobalContext';
+import useGlobalContext from '../hooks/useGlobalContext';
 //import { agregarUsuario } from './Perfil';
 
 const Physic = () => {
