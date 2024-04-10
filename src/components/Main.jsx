@@ -3,17 +3,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
 //Pantallas
-import Login from "./components/Login.jsx";
-import Perfil from './components/Perfil.jsx';
-import Menu from './components/Menu.jsx';
-import Forgot from './components/Forgot.jsx';
-import Check from './components/Check.jsx';
-import Ejercicio from "./components/Ejercicio.jsx";
-import Physic from "./components/Physic.jsx";
-import Profile from "./components/Profile.jsx";
-import EditProfile from "./components/EditProfile.jsx";
-import Food from "./components/Food.jsx";
-import { GlobalProvider } from "./contexts/globalContext.jsx";
+import Login from "./Login.jsx";
+import Perfil from './Perfil.jsx';
+import Menu from './Menu.jsx';
+import Forgot from './Forgot.jsx';
+import Check from './Check.jsx';
+import Ejercicio from "./Ejercicio.jsx";
+import Physic from "./Physic.jsx";
+import Profile from "./Profile.jsx";
+import EditProfile from "./EditProfile.jsx";
+import Food from "./Food.jsx";
+import { GlobalProvider } from "../contexts/globalContext.jsx";
 
 const Stack = createStackNavigator();
 

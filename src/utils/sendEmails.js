@@ -1,4 +1,4 @@
-import { Resend } from 'resend'
+/*import { Resend } from 'resend'
 
 const resend = new Resend('re_iQ21j6RN_NkTESwg35pZHD9UoNpPhHC6g')
 
@@ -16,4 +16,4 @@ export async function sendEmails() {
   }
 
   console.log('Email sent:', data)
-}
+}*/
