@@ -1,13 +1,11 @@
 import React from "react";
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity, StyleSheet, Text, TextInput, View } from 'react-native';
-import { sendEmails } from "../utils/sendEmails";
 
 const Forgot = () => {
     const { navigate } = useNavigation();
     //Funcion para llevar a la interfaz de checkear email
     const onPress = () => {
-        sendEmails();
         navigate ('Check')
      };
 
