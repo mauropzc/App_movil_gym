@@ -85,7 +85,7 @@ const EditProfile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+    paddingTop: '6%'
   },
   title: {
     fontSize: 30,
