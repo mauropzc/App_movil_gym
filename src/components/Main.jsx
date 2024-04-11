@@ -13,6 +13,7 @@ import Physic from "./Physic.jsx";
 import Profile from "./Profile.jsx";
 import EditProfile from "./EditProfile.jsx";
 import Food from "./Food.jsx";
+import Report from "./Report.jsx";
 import { GlobalProvider } from "./contexts/globalContext.jsx";
 
 const Stack = createStackNavigator();
@@ -32,6 +33,7 @@ const Main = () => {
                     <Stack.Screen name= "Profile" component={Profile} />
                     <Stack.Screen name= "EditProfile" component={EditProfile} />
                     <Stack.Screen name= "Food" component={Food} />
+                    <Stack.Screen name= "Report" component={Report} />
                 </Stack.Navigator>
             </GlobalProvider>
         </NavigationContainer>

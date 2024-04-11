@@ -20,7 +20,7 @@ const MenuBar = () => {
             <TouchableOpacity style={styles.icon} onPress={() => goToScreen('Food')}>
                 <Image source={require('./../../assets/img/food.png')} style={styles.buttonIcon} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.icon} onPress={() => goToScreen('Food')}>
+            <TouchableOpacity style={styles.icon} onPress={() => goToScreen('Report')}>
                 <Image source={require('./../../assets/img/report.png')} style={styles.buttonIcon} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.icon} onPress={() => goToScreen('Profile')}>
