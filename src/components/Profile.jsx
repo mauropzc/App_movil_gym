@@ -1,6 +1,6 @@
 //Edit
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MenuBar from './MenuBar';
 import useGlobalContext from './hooks/useGlobalContext';
@@ -11,9 +11,11 @@ const Profile = () => {
 
   const { usuarioActual } = useGlobalContext();
 
-  const onPress2 = () => {
-   
-   };
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const onPressProfile = () => {
     navigate ('EditProfile')
@@ -35,7 +37,7 @@ const Profile = () => {
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/user.png')} style={{height: 45, width:45}} />
           <Text style={[styles.text, {fontWeight:'bold'}]}>User Name: </Text>
-          <Text style={[styles.text,{paddingLeft:0,width:'40%'}]}>{usuarioActual.nombre} {usuarioActual.apellido}</Text>
+          <Text style={[styles.text,{paddingLeft:0,width:'40%'}]}>{usuarioActual.username}</Text>
         </View>
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/email.png')} style={{height: 45, width:45}} />
@@ -43,9 +45,15 @@ const Profile = () => {
           <Text style={[styles.text,{paddingLeft:0,width:'40%'}]}>{usuarioActual.correo}</Text> 
         </View>
         <View style={styles.dates}>
-          <Image source={require('./../../assets/img/key.png')} style={{height: 45, width:45}} />
-          <Text style={[styles.text, {fontWeight:'bold'}]}>Password</Text>
-          <Text style={[styles.text,{paddingLeft:0,width:'40%'}]}>{usuarioActual.password}</Text>
+          <Image source={require('./../../assets/img/key.png')} style={{ height: 45, width: 45 }} />
+          <Text style={[styles.text, { fontWeight: 'bold' }]}>Password:</Text>
+          <TouchableOpacity style={[styles.text,{paddingLeft:0,width:'40%'}]} onPress={togglePasswordVisibility}>
+            <TextInput
+              style={[styles.text, { paddingLeft: 0, width: '40%' }]}
+              value={showPassword ? usuarioActual.password: '*'.repeat(usuarioActual.password.length)}
+              editable={false} 
+            />
+          </TouchableOpacity>
         </View>
       </View>
       
@@ -79,6 +87,7 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     textAlign: 'left',
     width: '30%',
+    color: 'black'
   },
 
   dates: {
