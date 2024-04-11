@@ -3,7 +3,6 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import useGlobalContext from './hooks/useGlobalContext';
 
-
 const Perfil = () => {
   const { setUsuarioPerfil } = useGlobalContext();
 
@@ -164,4 +163,3 @@ const styles = StyleSheet.create({
 });
 
 export default Perfil;
-//export { getUsuarios };

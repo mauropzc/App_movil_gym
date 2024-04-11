@@ -1,10 +1,12 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useAsyncStorage from "../hooks/useAsyncStorage";
 
 export const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
 
-  const [usuarios, setUsuarios] = useState([{"altura": "160", "apellido": "Muñoz", "correo": "nidiamunoz0708@gmail.com", "edad": "20", "meta": "Lose Fat", "nivel": "Beginner", "nombre": "Nidia", "password": "nidia123", "peso": "69", "peso_meta": "60", "username": "Nidia07"}]);
+  const [usuarios, setUsuarios] = useAsyncStorage("usuarios", [])
 
   const [usuarioPerfil, setUsuarioPerfil] = useState(null);
 
@@ -39,10 +41,9 @@ export function GlobalProvider({ children }) {
     }
 
     setUsuarios([...usuarios, nuevoUsuario]);
+    
   }
-
-  console.log(usuarios);
-  console.log(count);
+  console.log("usuarios", usuarios);
 
   return (
     <GlobalContext.Provider 
@@ -63,3 +64,4 @@ export function GlobalProvider({ children }) {
     </GlobalContext.Provider>
   );
 }
+
