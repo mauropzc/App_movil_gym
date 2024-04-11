@@ -3,7 +3,6 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import useGlobalContext from './hooks/useGlobalContext';
 
-
 const Perfil = () => {
   const { setUsuarioPerfil } = useGlobalContext();
 
@@ -30,14 +29,6 @@ const Perfil = () => {
     navigate ('Physic')
   };
   
-
-  /*const getUsuarios = () => {
-    return usuarios;
-  };
-  
-  const onPress = () => {
-    navigate ('Physic')
-  };*/
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -170,4 +161,3 @@ const styles = StyleSheet.create({
 });
 
 export default Perfil;
-//export { getUsuarios };
