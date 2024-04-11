@@ -23,8 +23,14 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')}></Image>
-      <View style={styles.overlay}><Text style={styles.overlayText}>{usuarioActual.username}</Text></View>
+      <View style={styles.overlay}><Text style={styles.overlayText}>{usuarioActual.nombre} {usuarioActual.apellido}</Text></View>
       <View style={styles.bar}>
+        <TouchableOpacity style={styles.iconBar } onPress={onPress2}>
+          <Image source={require('./../../assets/img/config.png')} style={styles.buttonIconBar} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconBar } onPress={onPress2}>
+          <Image source={require('./../../assets/img/notifications.png')} style={styles.buttonIconBar} />
+        </TouchableOpacity>
         <Text style={{width: '60%'}}></Text>
         <TouchableOpacity style={styles.iconBar } onPress={onPressProfile}>
           <Image source={require('./../../assets/img/pencil.png')} style={styles.buttonIconBar} />
@@ -95,9 +101,8 @@ const styles = StyleSheet.create({
   },
 
   buttonIconBar:{
-    height: '45%',
-    width: '35%',
-    alignSelf: 'flex-end',
+    height: '40%',
+    width: '60%',
   },
   
   bar: {
@@ -106,8 +111,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderWidth: 0.5,
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingRight: '3%'
   },
 
   overlay: {
