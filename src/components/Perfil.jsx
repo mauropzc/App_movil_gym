@@ -7,6 +7,8 @@ import useGlobalContext from './hooks/useGlobalContext';
 const Perfil = () => {
   const { setUsuarioPerfil } = useGlobalContext();
 
+  const { usuarioActual } = useGlobalContext();
+
   const { navigate } = useNavigation();
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -30,14 +32,6 @@ const Perfil = () => {
     navigate ('Physic')
   };
   
-
-  /*const getUsuarios = () => {
-    return usuarios;
-  };
-  
-  const onPress = () => {
-    navigate ('Physic')
-  };*/
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
