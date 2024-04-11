@@ -6,6 +6,8 @@ import useGlobalContext from './hooks/useGlobalContext';
 const Perfil = () => {
   const { setUsuarioPerfil } = useGlobalContext();
 
+  const { usuarioActual } = useGlobalContext();
+
   const { navigate } = useNavigation();
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');

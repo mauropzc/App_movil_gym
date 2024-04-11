@@ -3,12 +3,13 @@ import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MenuBar from './MenuBar';
+import useGlobalContext from './hooks/useGlobalContext';
 
 const Profile = () => {
 
   const { navigate } = useNavigation();
-  
-  const [userName, setUserName] = useState('Pepito Perez'); // Replace with actual user name logic
+
+  const { usuarioActual } = useGlobalContext();
 
   const onPress2 = () => {
    
@@ -22,7 +23,7 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')}></Image>
-      <View style={styles.overlay}><Text style={styles.overlayText}>{userName}</Text></View>
+      <View style={styles.overlay}><Text style={styles.overlayText}>{usuarioActual.nombre} {usuarioActual.apellido}</Text></View>
       <View style={styles.bar}>
         <TouchableOpacity style={styles.iconBar } onPress={onPress2}>
           <Image source={require('./../../assets/img/config.png')} style={styles.buttonIconBar} />
@@ -40,17 +41,17 @@ const Profile = () => {
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/user.png')} style={{height: 45, width:45}} />
           <Text style={[styles.text, {fontWeight:'bold'}]}>User Name: </Text>
-          <Text style={[styles.text,{paddingLeft:0,}]}>{userName}</Text>
+          <Text style={[styles.text,{paddingLeft:0,width:'40%'}]}>{usuarioActual.nombre} {usuarioActual.apellido}</Text>
         </View>
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/email.png')} style={{height: 45, width:45}} />
           <Text style={[styles.text, {fontWeight:'bold'}]}>Email:</Text>
-          <Text style={[styles.text,{paddingLeft:0,}]}>user@example.com</Text> 
+          <Text style={[styles.text,{paddingLeft:0,width:'40%'}]}>{usuarioActual.correo}</Text> 
         </View>
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/key.png')} style={{height: 45, width:45}} />
           <Text style={[styles.text, {fontWeight:'bold'}]}>Password</Text>
-          <Text style={[styles.text,{paddingLeft:0,}]}>***********</Text>
+          <Text style={[styles.text,{paddingLeft:0,width:'40%'}]}>{usuarioActual.password}</Text>
         </View>
       </View>
       
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     paddingRight: 0,
     paddingLeft: 30,
     textAlign: 'left',
-    width: 150,
+    width: '30%',
   },
 
   dates: {
