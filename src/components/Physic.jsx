@@ -87,10 +87,10 @@ const Physic = () => {
           
           <RNPickerSelect
           style={styles.pickerSelect}
-          placeholder={{ label: 'Bajar', value: 'bajar'}}
+          placeholder={{ label: 'Lose Fat', value: 'Lose_Fat'}}
             items={[
-                  { label: 'Mantener', value: 'mantener' },
-                  { label: 'Subir', value: 'subir' },
+                  { label: 'Keep Fat', value: 'Keep_Fat' },
+                  { label: 'Gain Fat', value: 'Gain_Fat' },
                 ]}
                 value={goal}
                 onValueChange={(text) => setGoal(text)}
@@ -101,10 +101,10 @@ const Physic = () => {
           <Text style={styles.label}>Physical Level</Text>
           <RNPickerSelect
           style={styles.pickerSelect}
-          placeholder={{ label: 'Bajo', value: 'bajo'}}
+          placeholder={{ label: 'Beginner', value: 'Beginner'}}
             items={[
-                  { label: 'Medio', value: 'medio' },
-                  { label: 'Alto', value: 'alto' },
+                  { label: 'Intermediate', value: 'Intermediate' },
+                  { label: 'Advanced', value: 'Advanced' },
                 ]}
                 value={level}
                 onValueChange={(text) => setLevel(text)}
