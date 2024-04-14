@@ -12,6 +12,12 @@ export function GlobalProvider({ children }) {
 
   const [usuarioActual, setUsuarioActual] = useState(null);
 
+  const [progress, setProgress] = useState({proteins:0, carbs:0, fats:0, calories:0, progress:0});
+
+  const [comidas, setComidas] = useState({breakfast:{ingredients:null, nutricion:[]}, 
+                                          lunch:{ingredients:null, nutricion:[]}, 
+                                          dinner:{ingredients:null, nutricion:[]}});
+
   const [count, setCount] = useState(0);
 
   const [lastIncrementDate, setLastIncrementDate] = useState(null);
@@ -57,7 +63,12 @@ export function GlobalProvider({ children }) {
         setCount,
         lastIncrementDate, 
         setLastIncrementDate,
-        valorCalories}}
+        valorCalories,
+        comidas,
+        setComidas,
+        progress,
+        setProgress,
+        totalCalories}}
 
     >
       {children}
