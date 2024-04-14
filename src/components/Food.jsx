@@ -11,7 +11,7 @@ import { RadioButton } from 'react-native-paper';
 const ProgressCircle = ({ progress, size, strokeWidth, valorCalories }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
-  const progressStrokeDashoffset = circumference - (progress / 100) * circumference;
+  const progressStrokeDashoffset = circumference - (progress.progress / 100) * circumference;
 
 
   return (
@@ -41,7 +41,7 @@ const ProgressCircle = ({ progress, size, strokeWidth, valorCalories }) => {
           />
           {/* Texto dentro del círculo */}
           <Text style = {styles.meta}  fontSize={12} fill="black">
-            0/{valorCalories[0]}
+            {progress.calories}/{valorCalories[0]}
           </Text>
         </G>
       </Svg>
@@ -83,11 +83,11 @@ const Recipes = {
 const Food = () => {
     const { navigate } = useNavigation();
 
-    const { valorCalories } = useGlobalContext();
+    const { valorCalories, comidas, setComidas, progress, setProgress, usuarioActual } = useGlobalContext();
 
     const swiperRef = useRef(null);
 
-    const [tipoComida, setTipoComida] = useState('Breakfast');
+    const [tipoComida, setTipoComida] = useState('breakfast');
   
     const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
 
@@ -128,12 +128,97 @@ const Food = () => {
       return () => clearInterval(interval);
     }, []);
 
-    progress = () => {
-      
-    }
+    function calcularNutricion(usuario) {
+      if (usuario != null) {
+        meta = usuario.meta
+        switch (meta) {
+          case 'Lose_Fat':
+           return {proteins:[Recipes.breakfast.proteins[0], Recipes.lunch.proteins[0], Recipes.dinner.proteins[0]],
+                          carbs:[Recipes.breakfast.carbs[0], Recipes.lunch.carbs[0], Recipes.dinner.carbs[0]],
+                          fats:[Recipes.breakfast.fats[0], Recipes.lunch.fats[0], Recipes.dinner.fats[0]],
+                          calories:[Recipes.breakfast.calories[0], Recipes.lunch.calories[0], Recipes.dinner.calories[0]]};
+                          break;
+          case 'Gain_Fat':
+            return {proteins:[Recipes.breakfast.proteins[1], Recipes.lunch.proteins[1], Recipes.dinner.proteins[1]],
+                          carbs:[Recipes.breakfast.carbs[1], Recipes.lunch.carbs[1], Recipes.dinner.carbs[1]],
+                          fats:[Recipes.breakfast.fats[1], Recipes.lunch.fats[1], Recipes.dinner.fats[1]],
+                          calories:[Recipes.breakfast.calories[1], Recipes.lunch.calories[1], Recipes.dinner.calories[1]]};
+                          break;
+          case 'Keep_Fat':
+            return {proteins:[Recipes.breakfast.proteins[2], Recipes.lunch.proteins[2], Recipes.dinner.proteins[2]],
+                          carbs:[Recipes.breakfast.carbs[2], Recipes.lunch.carbs[2], Recipes.dinner.carbs[2]],
+                          fats:[Recipes.breakfast.fats[2], Recipes.lunch.fats[2], Recipes.dinner.fats[2]],
+                          calories:[breakfast.calories[2], Recipes.lunch.calories[2], Recipes.dinner.calories[2]]};
+                          break;
+          default:
+            return 0;
+        }
+      }
+    };
 
+    function selectRecipe(num) {
+      nut = calcularNutricion(usuarioActual)
+      switch (tipoComida) {
+        case 'breakfast':
+          setComidas(prevComidas => ({
+            ...prevComidas,
+            breakfast: {
+              ingredients: Object.values(Recipes.breakfast)[num],
+              nutricion: [nut.proteins[0], nut.carbs[0], nut.fats[0], nut.calories[0]]
+            }
+          }));
+          if (comidas.breakfast.ingredients === null) {
+            setProgress( {proteins: progress.proteins + nut.proteins[0], 
+                          carbs: progress.carbs + nut.carbs[0],
+                          fats: progress.fats + nut.fats[0],
+                          calories: progress.calories + nut.calories[0],
+                          progress: progress.progress + (nut.calories[0]/valorCalories[0]*100)})
+                          console.log('aqui fui tambien')
+            };
+          break;
+        case 'lunch':
+          setComidas(prevComidas => ({
+            ...prevComidas,
+            lunch: {
+              ingredients: Object.values(Recipes.lunch)[num],
+              nutricion: [nut.proteins[1], nut.carbs[1], nut.fats[1], nut.calories[1]]
+            }
+          }));
+          if (comidas.lunch.ingredients === null) {
+            setProgress( {proteins: progress.proteins + nut.proteins[1], 
+                          carbs: progress.carbs + nut.carbs[1],
+                          fats: progress.fats + nut.fats[1],
+                          calories: progress.calories + nut.calories[1],
+                          progress: progress.progress + (nut.calories[1]/valorCalories[0]*100)})
+          };
+          break;
+        case 'dinner':
+          setComidas(prevComidas => ({
+            ...prevComidas,
+            dinner: {
+              ingredients: Object.values(Recipes.dinner)[num],
+              nutricion: [nut.proteins[2], nut.carbs[2], nut.fats[2], nut.calories[2]]
+            }
+          }));
+          if (comidas.dinner.ingredients === null) {
+            setProgress( {proteins: progress.proteins + nut.proteins[2], 
+                          carbs: progress.carbs + nut.carbs[2],
+                          fats: progress.fats + nut.fats[2],
+                          calories: progress.calories + nut.calories[2],
+                          progress: progress.progress + (nut.calories[2]/valorCalories[0]*100)})
+          };
+          break;
+        default:
+          break;
+      }
+    };
+
+    useEffect(() => {
+      console.log(comidas);
+    }, [comidas]);
 
     return (
+
         <View style={styles.container}>
           
           <View style={styles.containerTitle}>
@@ -162,13 +247,13 @@ const Food = () => {
                 <Text style={[styles.text,]}>Fats</Text>
               </View>
               <View style={[styles.dates, {textAlign: 'flex-end'}]}>
-                <Text style={[styles.text,{textAlign: 'right'}]}>0/{valorCalories[1]} g</Text>
-                <Text style={[styles.text,{textAlign: 'right'}]}>0/{valorCalories[2]} g</Text>
-                <Text style={[styles.text,{textAlign: 'right'}]}>0/{valorCalories[3]} g</Text>
+                <Text style={[styles.text,{textAlign: 'right'}]}>{progress.proteins}/{valorCalories[1]} g</Text>
+                <Text style={[styles.text,{textAlign: 'right'}]}>{progress.carbs}/{valorCalories[2]} g</Text>
+                <Text style={[styles.text,{textAlign: 'right'}]}>{progress.fats}/{valorCalories[3]} g</Text>
               </View>
               <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#00FF0000' }}>
               {/* Usando el componente ProgressCircle */}
-                  <ProgressCircle progress={10} size={80} strokeWidth={5} backgroundColor="black" valorCalories={valorCalories} />
+                  <ProgressCircle progress={progress} size={80} strokeWidth={5} backgroundColor="black" valorCalories={valorCalories} />
              </View>
           </View>
 
@@ -178,13 +263,12 @@ const Food = () => {
               { label: 'Dinner', value: 'dinner' },
             ]}
             onValueChange={(value) => {
-              console.log(value)
               setTipoComida(value);
               asignFood();
             }}
             value={tipoComida}
             style={styles.pickerSelect}
-            placeholder={{label: 'Breakfast', value: 'breakfast'}}
+            placeholder={{label: 'Brekfast', value: 'breakfast'}}
             useNativeAndroidPickerStyle={false}
             Icon={() => (
               <Image
@@ -196,7 +280,7 @@ const Food = () => {
 
           <ScrollView style={styles.scrollView}>
             <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-              <TouchableOpacity style={styles.recipe} onPress={() => handleSeleccion('recipe1')}>
+              <TouchableOpacity style={styles.recipe} onPress={() => {handleSeleccion('recipe1'); selectRecipe(0)}}>
                 <Text style={styles.recipeTitle}>Recipe 1</Text>
                 <Text style={styles.ingredients}>{actualFood.recipe1[0]}</Text>
                 <Text style={styles.ingredients}>{actualFood.recipe1[1]}</Text>
@@ -205,13 +289,13 @@ const Food = () => {
               <RadioButton
                 value="recipe1"
                 status={opcionSeleccionada === 'recipe1' ? 'checked' : 'unchecked'}
-                onPress={() => handleSeleccion('recipe1')}
+                onPress={() => {handleSeleccion('recipe1'); selectRecipe(0)}}
                 color='#268de8'
               />
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop:'2%' }}>
-              <TouchableOpacity style={styles.recipe} onPress={() => handleSeleccion('recipe2')}>
+              <TouchableOpacity style={styles.recipe} onPress={() => {handleSeleccion('recipe2'); selectRecipe(1)}}>
                 <Text style={styles.recipeTitle}>Recipe 2</Text>
                 <Text style={styles.ingredients}>{actualFood.recipe2[0]}</Text>
                 <Text style={styles.ingredients}>{actualFood.recipe2[1]}</Text>
@@ -220,13 +304,13 @@ const Food = () => {
               <RadioButton
                 value="recipe2"
                 status={opcionSeleccionada === 'recipe2' ? 'checked' : 'unchecked'}
-                onPress={() => handleSeleccion('recipe2')}
+                onPress={() => {handleSeleccion('recipe2'); selectRecipe(1)}}
                 color='#268de8'
               />
             </View>
             
             <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop:'2%'}}>
-              <TouchableOpacity style={styles.recipe} onPress={() => handleSeleccion('recipe3')}>
+              <TouchableOpacity style={styles.recipe} onPress={() => {handleSeleccion('recipe3'); selectRecipe(2)}}>
                 <Text style={styles.recipeTitle}>Recipe 3</Text>
                 <Text style={styles.ingredients}>{actualFood.recipe3[0]}</Text>
                 <Text style={styles.ingredients}>{actualFood.recipe3[1]}</Text>
@@ -235,7 +319,7 @@ const Food = () => {
               <RadioButton
                 value="recipe3"
                 status={opcionSeleccionada === 'recipe3' ? 'checked' : 'unchecked'}
-                onPress={() => handleSeleccion('recipe3')}
+                onPress={() => {handleSeleccion('recipe3'); selectRecipe(2)}}
                 color='#268de8'
               />
             </View>
