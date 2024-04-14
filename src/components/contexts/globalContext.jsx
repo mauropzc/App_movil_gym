@@ -49,7 +49,7 @@ export function GlobalProvider({ children }) {
     setUsuarios([...usuarios, nuevoUsuario]);
     
   }
-  //console.log("usuarios", usuarios);
+  console.log("usuarios", usuarios);
 
   return (
     <GlobalContext.Provider 
