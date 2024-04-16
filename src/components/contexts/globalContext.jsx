@@ -14,6 +14,12 @@ export function GlobalProvider({ children }) {
 
   const [usuarioActual, setUsuarioActual] = useState(null);
 
+  const [progress, setProgress] = useState({proteins:0, carbs:0, fats:0, calories:0, progress:0});
+
+  const [comidas, setComidas] = useState({breakfast:{ingredients:null, nutricion:[]}, 
+                                          lunch:{ingredients:null, nutricion:[]}, 
+                                          dinner:{ingredients:null, nutricion:[]}});
+
   const [count, setCount] = useState(0);
 
   const [lastIncrementDate, setLastIncrementDate] = useState(null);
@@ -24,11 +30,11 @@ export function GlobalProvider({ children }) {
     if (usuario != null) {
       meta = usuario.meta
       switch (meta) {
-        case 'Lose Fat':
+        case 'Lose_Fat':
           return [1002,72,66,50];
-        case 'Gain Fat':
+        case 'Gain_Fat':
           return [3002,186,182,170];
-        case 'Keep Fat':
+        case 'Keep_Fat':
           return [2005,115,123,117];
         default:
           return 0; // Valor predeterminado si la meta no coincide con ninguna de las opciones anteriores
@@ -72,7 +78,12 @@ export function GlobalProvider({ children }) {
         setCount,
         lastIncrementDate, 
         setLastIncrementDate,
-        valorCalories}}
+        valorCalories,
+        comidas,
+        setComidas,
+        progress,
+        setProgress,
+        totalCalories}}
 
     >
       {children}
