@@ -72,10 +72,10 @@ const Recipes = {
     recipe1: ['Rice', 'Broccoli', 'Cucumber'],
     recipe2: ['Asparagus', 'Fish', 'Chard'],
     recipe3: ['Corn Pie', 'Mushrooms', 'Pork Steak'],
-    proteins: [18, 40, 119],
+    proteins: [18, 40, 61],
     carbs: [22, 55, 62],
     fats: [16, 49, 56],
-    calories: [303, 21, 996]
+    calories: [303, 821, 996]
   }
 };
 
@@ -134,22 +134,19 @@ const Food = () => {
         switch (meta) {
           case 'Lose_Fat':
            return {proteins:[Recipes.breakfast.proteins[0], Recipes.lunch.proteins[0], Recipes.dinner.proteins[0]],
-                          carbs:[Recipes.breakfast.carbs[0], Recipes.lunch.carbs[0], Recipes.dinner.carbs[0]],
-                          fats:[Recipes.breakfast.fats[0], Recipes.lunch.fats[0], Recipes.dinner.fats[0]],
-                          calories:[Recipes.breakfast.calories[0], Recipes.lunch.calories[0], Recipes.dinner.calories[0]]};
-                          break;
-          case 'Gain_Fat':
-            return {proteins:[Recipes.breakfast.proteins[1], Recipes.lunch.proteins[1], Recipes.dinner.proteins[1]],
-                          carbs:[Recipes.breakfast.carbs[1], Recipes.lunch.carbs[1], Recipes.dinner.carbs[1]],
-                          fats:[Recipes.breakfast.fats[1], Recipes.lunch.fats[1], Recipes.dinner.fats[1]],
-                          calories:[Recipes.breakfast.calories[1], Recipes.lunch.calories[1], Recipes.dinner.calories[1]]};
-                          break;
+                    carbs:[Recipes.breakfast.carbs[0], Recipes.lunch.carbs[0], Recipes.dinner.carbs[0]],
+                    fats:[Recipes.breakfast.fats[0], Recipes.lunch.fats[0], Recipes.dinner.fats[0]],
+                    calories:[Recipes.breakfast.calories[0], Recipes.lunch.calories[0], Recipes.dinner.calories[0]]};            
           case 'Keep_Fat':
+            return {proteins:[Recipes.breakfast.proteins[1], Recipes.lunch.proteins[1], Recipes.dinner.proteins[1]],
+                    carbs:[Recipes.breakfast.carbs[1], Recipes.lunch.carbs[1], Recipes.dinner.carbs[1]],
+                    fats:[Recipes.breakfast.fats[1], Recipes.lunch.fats[1], Recipes.dinner.fats[1]],
+                    calories:[Recipes.breakfast.calories[1], Recipes.lunch.calories[1], Recipes.dinner.calories[1]]}; 
+          case 'Gain_Fat':
             return {proteins:[Recipes.breakfast.proteins[2], Recipes.lunch.proteins[2], Recipes.dinner.proteins[2]],
-                          carbs:[Recipes.breakfast.carbs[2], Recipes.lunch.carbs[2], Recipes.dinner.carbs[2]],
-                          fats:[Recipes.breakfast.fats[2], Recipes.lunch.fats[2], Recipes.dinner.fats[2]],
-                          calories:[breakfast.calories[2], Recipes.lunch.calories[2], Recipes.dinner.calories[2]]};
-                          break;
+                    carbs:[Recipes.breakfast.carbs[2], Recipes.lunch.carbs[2], Recipes.dinner.carbs[2]],
+                    fats:[Recipes.breakfast.fats[2], Recipes.lunch.fats[2], Recipes.dinner.fats[2]],
+                    calories:[Recipes.breakfast.calories[2], Recipes.lunch.calories[2], Recipes.dinner.calories[2]]};
           default:
             return 0;
         }
@@ -158,6 +155,7 @@ const Food = () => {
 
     function selectRecipe(num) {
       nut = calcularNutricion(usuarioActual)
+      console.log('Si pasé')
       switch (tipoComida) {
         case 'breakfast':
           setComidas(prevComidas => ({
