@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import useGlobalContext from './hooks/useGlobalContext';
 //import { agregarUsuario } from './Perfil';
@@ -18,13 +18,19 @@ const Physic = () => {
 
   const agregarUsuario = () => {
     const nuevoUsuario = {
-      altura: altura,
-      peso: peso,
-      peso_meta: peso_meta,
-      meta: goal,
-      nivel: level
+      height: parseInt(altura),
+      weight: parseFloat(peso),
+      weightGoal: parseFloat(peso_meta),
+      physicalGoal: goal,
+      physicalLevel: level
     };
-  
+    // try {
+    //   crearUsuario(nuevoUsuario);
+    //   navigate('Login');
+    // } catch (error) {
+    //   console.log(error);
+    //   Alert.alert('Error', 'Error creating user');
+    // }
     crearUsuario(nuevoUsuario);
     navigate ('Login')
     

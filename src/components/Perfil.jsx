@@ -18,10 +18,10 @@ const Perfil = () => {
   //Gestión de usuarios-----------------------------------
   const agregarUsuario = () => {
     const nuevoUsuario = {
-      nombre: name,
-      apellido: lastName,
-      edad: age,
-      correo: email,
+      name: name,
+      lastname: lastName,
+      age: parseInt(age),
+      email: email,
       username: user,
       password: password
     };

@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } fro
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import useGlobalContext from './hooks/useGlobalContext';
-
+import axios from 'axios';
 
 const Login = () => {
   const { navigate } = useNavigation();
@@ -27,19 +27,24 @@ const Login = () => {
      navigate ('Forgot')
   }
 
-  const handleLogin = () => {
-    const user = usuarios.find(user => user.username === username && user.password === password);
-    if (user) {
-      // Permitir el ingreso a la aplicación
-      //console.log('Usuario autenticado correctamente');
-      console.log('Inicio correcto')
-      setUsuarioActual(user) // Obtiene el usuario del perfil
-      navigate ('Menu')
-    } else {
-      // Mostrar mensaje de error
-      Alert.alert('Error', errorMessage);
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('https://dstm3ct3-3000.use2.devtunnels.ms/api/auth/login', {
+        username,
+        password
+      });
+      console.log(response.data);
+      setUsuarioActual(response.data);
+      navigate('Menu');
+
     }
-  };
+    catch (error) {
+      console.log(error);
+      Alert.alert('Error', 'User or pass incorrect');
+    }
+
+
+  }
 
 
   return (

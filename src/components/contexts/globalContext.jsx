@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAsyncStorage from "../hooks/useAsyncStorage";
+import axios from 'axios';
 
 export const GlobalContext = createContext();
 
@@ -34,13 +36,26 @@ export function GlobalProvider({ children }) {
   }
   }; 
 
-  const crearUsuario = (datosFisico) => {
+  const crearUsuario = async (datosFisico) => {
     const nuevoUsuario = {
       ...usuarioPerfil,
       ...datosFisico
     }
 
-    setUsuarios([...usuarios, nuevoUsuario]);
+    console.log(nuevoUsuario);
+
+    try {
+      const response = await axios.post('https://dstm3ct3-3000.use2.devtunnels.ms/api/users', 
+        nuevoUsuario
+      )
+      Alert.alert('Success', 'User created successfully');
+      console.log(response.data);
+
+    }
+    catch (error) {
+      console.log(error);
+      Alert.alert('Error', 'Error creating user');
+    }
     
   }
   console.log("usuarios", usuarios);
