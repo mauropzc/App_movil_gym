@@ -1,17 +1,29 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MenuBar from './MenuBar';
 import useGlobalContext from './hooks/useGlobalContext';
+import axios from 'axios';
 
 const Menu = () => {
-
   const { navigate } = useNavigation();
-
   const {count, setCount } = useGlobalContext();
-
   const { lastIncrementDate, setLastIncrementDate } = useGlobalContext();
+  const [catExcercises, setCatExcercises] = useState([]);
+
+  useEffect(() => {
+    getCatExcercises()
+  }, [])
+
+  const getCatExcercises = async () => {
+    try {
+      const response = await axios.get('https://xjd2sdt5-3000.use2.devtunnels.ms/api/catexcercises');
+      console.log(response.data)
+      setCatExcercises(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
     const ejerciciosPierna = [
       { ejercicio: require('./../../assets/img/Ejp1.gif'), nombre: 'STEPUPK NEELIFT REVERSE', series: '4', repeticiones:'20' },
@@ -70,18 +82,18 @@ const Menu = () => {
         </View>
         <View style={{height:'74%', top:35}}>
           <Text style={styles.tittleText}>Beginner</Text>
-          <TouchableOpacity style={styles.button } onPress={() => onPress(ejerciciosPierna)}>
-            <Image source={require('./../../assets/img/leg.png')} style={styles.buttonImage} />
-            <View style={styles.overlay}><Text style={styles.overlayText}>LEGS</Text></View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => onPress(ejerciciosPecho)}>
-            <Image source={require('./../../assets/img/chest.png')} style={styles.buttonImage} />
-            <View style={styles.overlay}><Text style={styles.overlayText}>CHEST</Text></View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => onPress(ejerciciosEspalda)}>
-            <Image source={require('./../../assets/img/back.png')} style={styles.buttonImage} />
-            <View style={styles.overlay}><Text style={styles.overlayText}>BACK</Text></View>
-          </TouchableOpacity>
+          {catExcercises.map((catExcercise) => (
+            <TouchableOpacity 
+              style={styles.button}
+              key={catExcercise.id}
+              onPress={() => onPress(ejerciciosPierna)}
+            >
+              <Image source={catExcercise.urlImg} style={styles.buttonImage} />
+              <View style={styles.overlay}>
+                <Text style={styles.overlayText}>{catExcercise.name}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <MenuBar navigation={navigate} />
