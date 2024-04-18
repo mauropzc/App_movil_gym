@@ -68,7 +68,9 @@ export function GlobalProvider({ children }) {
         setComidas,
         progress,
         setProgress,
-        totalCalories}}
+        totalCalories,
+        usuarios,
+        setUsuarios}}
 
     >
       {children}
