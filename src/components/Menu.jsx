@@ -1,9 +1,10 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import MenuBar from './MenuBar';
 import useGlobalContext from './hooks/useGlobalContext';
-import axios from 'axios';
+import MenuBar from './MenuBar';
+import { API_URL } from '@env';
 
 const Menu = () => {
   const { navigate } = useNavigation();
@@ -17,7 +18,7 @@ const Menu = () => {
 
   const getCatExcercises = async () => {
     try {
-      const response = await axios.get('https://xjd2sdt5-3000.use2.devtunnels.ms/api/catexcercises');
+      const response = await axios.get(`${API_URL}/catexcercises`);
       console.log(response.data)
       setCatExcercises(response.data)
     } catch (error) {
@@ -88,7 +89,12 @@ const Menu = () => {
               key={catExcercise.id}
               onPress={() => onPress(ejerciciosPierna)}
             >
-              <Image source={catExcercise.urlImg} style={styles.buttonImage} />
+              <Image 
+                source={{
+                  uri: catExcercise.urlImg
+                }} 
+                style={styles.buttonImage} 
+              />
               <View style={styles.overlay}>
                 <Text style={styles.overlayText}>{catExcercise.name}</Text>
               </View>
