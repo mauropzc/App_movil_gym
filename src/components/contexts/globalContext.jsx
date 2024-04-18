@@ -12,6 +12,8 @@ export function GlobalProvider({ children }) {
 
   const [usuarioActual, setUsuarioActual] = useState(null);
 
+  const [usuarioCheck, setUsuarioCheck] = useState(null);
+
   const [progress, setProgress] = useState({proteins:0, carbs:0, fats:0, calories:0, progress:0});
 
   const [comidas, setComidas] = useState({breakfast:{ingredients:null, nutricion:[]}, 
@@ -43,7 +45,8 @@ export function GlobalProvider({ children }) {
   const crearUsuario = (datosFisico) => {
     const nuevoUsuario = {
       ...usuarioPerfil,
-      ...datosFisico
+      ...datosFisico,
+      ...usuarioCheck
     }
 
     setUsuarios([...usuarios, nuevoUsuario]);
@@ -70,6 +73,8 @@ export function GlobalProvider({ children }) {
         setProgress,
         totalCalories,
         usuarios,
+        usuarioCheck,
+        setUsuarioCheck,
         setUsuarios}}
 
     >

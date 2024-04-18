@@ -5,6 +5,7 @@ import useGlobalContext from './hooks/useGlobalContext';
 
 const Perfil = () => {
   const { setUsuarioPerfil } = useGlobalContext();
+  const { setUsuarioCheck } = useGlobalContext();
 
   const { usuarioActual } = useGlobalContext();
 
@@ -15,6 +16,7 @@ const Perfil = () => {
   const [email, setEmail] = useState('');
   const [user, setuser] = useState('');
   const [password, setPassword] = useState('');
+  const [dates, setDates] = useState('');
   //Gestión de usuarios-----------------------------------
   const agregarUsuario = () => {
     const nuevoUsuario = {
@@ -25,8 +27,12 @@ const Perfil = () => {
       username: user,
       password: password
     };
+    const check = {
+      dates: dates
+    };
   
     setUsuarioPerfil(nuevoUsuario);
+    setUsuarioCheck(check);
     
     navigate ('Physic')
   };
