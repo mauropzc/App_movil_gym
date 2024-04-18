@@ -1,9 +1,10 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import useGlobalContext from './hooks/useGlobalContext';
-import axios from 'axios';
+import { API_URL } from '@env';
 
 const Login = () => {
   const { navigate } = useNavigation();
@@ -29,7 +30,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://dstm3ct3-3000.use2.devtunnels.ms/api/auth/login', {
+      const response = await axios.post(`${API_URL}/auth/login`, {
         username,
         password
       });
