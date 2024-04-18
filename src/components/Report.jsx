@@ -123,7 +123,7 @@ const Report = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {/* Usando el componente ProgressCircle */}
           <View style={{ marginRight: 20 }}>
-            <ProgressCircle progress={50} size={100} strokeWidth={16} backgroundColor="black" />
+            <ProgressCircle progress={porcentaje*100} size={100} strokeWidth={16} backgroundColor="black" />
           </View>
 
           {/* Información de peso */}
@@ -141,7 +141,7 @@ const Report = () => {
         </View>
       </View>
       {/* Porcentaje de progreso */}
-          <Text style={styles.progressText}>{50}%</Text>
+          <Text style={styles.progressText}>{porcentaje*100}%</Text>
           <MenuBar navigation={navigate} />
     </View>
   );
