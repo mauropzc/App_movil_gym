@@ -3,6 +3,7 @@ import { Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAsyncStorage from "../hooks/useAsyncStorage";
 import axios from 'axios';
+import { API_URL } from '@env';
 
 export const GlobalContext = createContext();
 
@@ -54,7 +55,7 @@ export function GlobalProvider({ children }) {
     console.log(nuevoUsuario);
 
     try {
-      const response = await axios.post('https://dstm3ct3-3000.use2.devtunnels.ms/api/users', 
+      const response = await axios.post(`${API_URL}/users`, 
         nuevoUsuario
       )
       Alert.alert('Success', 'User created successfully');
