@@ -26,26 +26,8 @@ const Menu = () => {
     }
   }
 
-    const ejerciciosPierna = [
-      { ejercicio: require('./../../assets/img/Ejp1.gif'), nombre: 'STEPUPK NEELIFT REVERSE', series: '4', repeticiones:'20' },
-      { ejercicio: require('./../../assets/img/Ejp2.gif'), nombre: 'SQUAT THRUST', series: '4', repeticiones:'22' },
-      { ejercicio: require('./../../assets/img/Ejp3.gif'), nombre: 'SQUAT JUMP', series: '3', repeticiones:'20' },
-    ];
-
-    const ejerciciosEspalda = [
-      { ejercicio: require('./../../assets/img/Eje1.gif'), nombre: 'SUPERMAN', series: '4', repeticiones:'22' },
-      { ejercicio: require('./../../assets/img/Eje2.gif'), nombre: 'T-FLEXION', series: '3', repeticiones:'20' },
-      { ejercicio: require('./../../assets/img/Eje3.gif'), nombre: 'INVERTED ROW', series: '4', repeticiones:'15' },
-    ];
-
-    const ejerciciosPecho = [
-      { ejercicio: require('./../../assets/img/Ejpe1.gif'), nombre: 'DIAMOND PUSHUP', series: '4', repeticiones:'15' },
-      { ejercicio: require('./../../assets/img/Ejpe2.gif'), nombre: 'ONE ARM PUSHUP', series: '2', repeticiones:'10' },
-      { ejercicio: require('./../../assets/img/Ejpe3.gif'), nombre: 'SPIDERMAN PUSHUP', series: '3', repeticiones:'5' },
-    ];
-
-    const onPress = (ejerciciosArray) => {
-      navigate ('Ejercicio', { ejerciciosArray })
+    const onPress = (idCatExcercise) => {
+      navigate ('Ejercicio', { idCatExcercise })
       incrementCounter()
     };
 
@@ -87,7 +69,7 @@ const Menu = () => {
             <TouchableOpacity 
               style={styles.button}
               key={catExcercise.id}
-              onPress={() => onPress(ejerciciosPierna)}
+              onPress={() => onPress(catExcercise.id)}
             >
               <Image 
                 source={{
