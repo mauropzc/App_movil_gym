@@ -51,31 +51,61 @@ const ProgressCircle = ({ progress, size, strokeWidth, valorCalories }) => {
 
 const Recipes = {
   breakfast: {
-    recipe1: ['Eggs', 'Banana', 'Cheese'],
-    recipe2: ['Pancakes', 'Strawberries', 'Oatmeal'],
-    recipe3: ['Cereal', 'Milk', 'Blueberries'],
-    proteins: [25, 32, 56],
-    carbs: [20, 28, 54],
-    fats: [16, 30, 50],
-    calories: [325, 510, 890]
+    recipe1: {  ingredients: ['Eggs', 'Banana', 'Cheese'], 
+                proteins: 25,
+                carbs: 20,
+                fats: 16,
+                calories: 325},
+
+     recipe2: {  ingredients: ['Pancakes', 'Strawberries', 'Oatmeal'], 
+                proteins: 32,
+                carbs: 28,
+                fats: 30,
+                calories: 510},
+    
+     recipe3: {  ingredients: ['Cereal', 'Milk', 'Blueberries'], 
+                proteins: 56,
+                carbs: 54,
+                fats: 50,
+                calories: 890},
   },
   lunch: {
-    recipe1: ['Pasta', 'Tomato', 'Meat'],
-    recipe2: ['Chickpeas', 'Spinach', 'Chicken Breast'],
-    recipe3: ['Lentils', 'Avocado', 'Cherry Tomato'],
-    proteins: [29, 43, 69],
-    carbs: [24, 40, 66],
-    fats: [18, 38, 64],
-    calories: [374, 674, 1116]
+    recipe1: {  ingredients: ['Pasta', 'Tomato', 'Meat'], 
+                proteins: 29,
+                carbs: 24,
+                fats: 18,
+                calories: 374},
+
+     recipe2: {  ingredients: ['Chickpeas', 'Spinach', 'Chicken Breast'], 
+                proteins: 43,
+                carbs: 40,
+                fats: 38,
+                calories: 674},
+    
+     recipe3: {  ingredients: ['Lentils', 'Avocado', 'Cherry Tomato'], 
+                proteins: 69,
+                carbs: 66,
+                fats: 64,
+                calories: 1116},
   },
   dinner: {
-    recipe1: ['Rice', 'Broccoli', 'Cucumber'],
-    recipe2: ['Asparagus', 'Fish', 'Chard'],
-    recipe3: ['Corn Pie', 'Mushrooms', 'Pork Steak'],
-    proteins: [18, 40, 61],
-    carbs: [22, 55, 62],
-    fats: [16, 49, 56],
-    calories: [303, 821, 996]
+    recipe1: {  ingredients: ['Rice', 'Broccoli', 'Cucumber'], 
+                proteins: 18,
+                carbs: 22,
+                fats: 16,
+                calories: 303},
+
+     recipe2: {  ingredients: ['Asparagus', 'Fish', 'Chard'], 
+                proteins: 40,
+                carbs: 55,
+                fats: 49,
+                calories: 821},
+    
+     recipe3: {  ingredients: ['Corn Pie', 'Mushrooms', 'Pork Steak'], 
+                proteins: 61,
+                carbs: 62,
+                fats: 56,
+                calories: 996},
   }
 };
 
@@ -103,7 +133,7 @@ const Food = () => {
     function asignFood () {
       switch (tipoComida) {
         case 'breakfast':
-          setActualFood(Recipes.breakfast,)
+          setActualFood(Recipes.breakfast)
           break;
         case 'lunch':
           setActualFood(Recipes.lunch)
@@ -128,83 +158,69 @@ const Food = () => {
       return () => clearInterval(interval);
     }, []);
 
-    function calcularNutricion(usuario) {
-      if (usuario != null) {
-        meta = usuario.meta
-        switch (meta) {
-          case 'Lose_Fat':
-           return {proteins:[Recipes.breakfast.proteins[0], Recipes.lunch.proteins[0], Recipes.dinner.proteins[0]],
-                    carbs:[Recipes.breakfast.carbs[0], Recipes.lunch.carbs[0], Recipes.dinner.carbs[0]],
-                    fats:[Recipes.breakfast.fats[0], Recipes.lunch.fats[0], Recipes.dinner.fats[0]],
-                    calories:[Recipes.breakfast.calories[0], Recipes.lunch.calories[0], Recipes.dinner.calories[0]]};            
-          case 'Keep_Fat':
-            return {proteins:[Recipes.breakfast.proteins[1], Recipes.lunch.proteins[1], Recipes.dinner.proteins[1]],
-                    carbs:[Recipes.breakfast.carbs[1], Recipes.lunch.carbs[1], Recipes.dinner.carbs[1]],
-                    fats:[Recipes.breakfast.fats[1], Recipes.lunch.fats[1], Recipes.dinner.fats[1]],
-                    calories:[Recipes.breakfast.calories[1], Recipes.lunch.calories[1], Recipes.dinner.calories[1]]}; 
-          case 'Gain_Fat':
-            return {proteins:[Recipes.breakfast.proteins[2], Recipes.lunch.proteins[2], Recipes.dinner.proteins[2]],
-                    carbs:[Recipes.breakfast.carbs[2], Recipes.lunch.carbs[2], Recipes.dinner.carbs[2]],
-                    fats:[Recipes.breakfast.fats[2], Recipes.lunch.fats[2], Recipes.dinner.fats[2]],
-                    calories:[Recipes.breakfast.calories[2], Recipes.lunch.calories[2], Recipes.dinner.calories[2]]};
-          default:
-            return 0;
-        }
-      }
-    };
 
     function selectRecipe(num) {
-      nut = calcularNutricion(usuarioActual)
-      console.log('Si pasé')
+  
       switch (tipoComida) {
         case 'breakfast':
+          if (breakfast != null){
+            aux = breakfast
+          } else {
+            aux = {proteins:0, carbs:0, fats:0, calories:0}
+          }
+          console.log(aux)
+          const breakfastIns = Object.values(Recipes.breakfast)[num]
+          console.log(breakfast)
           setComidas(prevComidas => ({
             ...prevComidas,
-            breakfast: {
-              ingredients: Object.values(Recipes.breakfast)[num],
-              nutricion: [nut.proteins[0], nut.carbs[0], nut.fats[0], nut.calories[0]]
-            }
+            breakfast: breakfastIns
           }));
-          if (comidas.breakfast.ingredients === null) {
-            setProgress( {proteins: progress.proteins + nut.proteins[0], 
-                          carbs: progress.carbs + nut.carbs[0],
-                          fats: progress.fats + nut.fats[0],
-                          calories: progress.calories + nut.calories[0],
-                          progress: progress.progress + (nut.calories[0]/valorCalories[0]*100)})
-                          console.log('aqui fui tambien')
-            };
+          setProgress( {proteins: progress.proteins - aux.proteins + breakfastIns.proteins, 
+                        carbs: progress.carbs - aux.carbs + breakfastIns.carbs,
+                        fats: progress.fats - aux.fats + breakfastIns.fats,
+                        calories: progress.calories - aux.calories + breakfastIns.calories,
+                        progress: progress.progress - (aux.calories/valorCalories[0]*100) + (breakfastIns.calories/valorCalories[0]*100)})
+          setBreakfast(breakfastIns)
           break;
         case 'lunch':
+          if (lunch != null){
+            aux = lunch
+          } else {
+            aux = {proteins:0, carbs:0, fats:0, calories:0}
+          }
+          console.log(aux)
+          const lunchIns = Object.values(Recipes.lunch)[num]
+          console.log(lunch)
           setComidas(prevComidas => ({
             ...prevComidas,
-            lunch: {
-              ingredients: Object.values(Recipes.lunch)[num],
-              nutricion: [nut.proteins[1], nut.carbs[1], nut.fats[1], nut.calories[1]]
-            }
+            lunch: lunchIns
           }));
-          if (comidas.lunch.ingredients === null) {
-            setProgress( {proteins: progress.proteins + nut.proteins[1], 
-                          carbs: progress.carbs + nut.carbs[1],
-                          fats: progress.fats + nut.fats[1],
-                          calories: progress.calories + nut.calories[1],
-                          progress: progress.progress + (nut.calories[1]/valorCalories[0]*100)})
-          };
+          setProgress( {proteins: progress.proteins - aux.proteins + lunchIns.proteins, 
+                        carbs: progress.carbs - aux.carbs + lunchIns.carbs,
+                        fats: progress.fats - aux.fats + lunchIns.fats,
+                        calories: progress.calories - aux.calories + lunchIns.calories,
+                        progress: progress.progress - (aux.calories/valorCalories[0]*100) + (lunchIns.calories/valorCalories[0]*100)})
+          setLunch(lunchIns)
           break;
         case 'dinner':
+          if (dinner != null){
+            aux = dinner
+          } else {
+            aux = {proteins:0, carbs:0, fats:0, calories:0}
+          }
+          console.log(aux)
+          const dinnerIns = Object.values(Recipes.dinner)[num]
+          console.log(dinner)
           setComidas(prevComidas => ({
             ...prevComidas,
-            dinner: {
-              ingredients: Object.values(Recipes.dinner)[num],
-              nutricion: [nut.proteins[2], nut.carbs[2], nut.fats[2], nut.calories[2]]
-            }
+            dinner: dinnerIns
           }));
-          if (comidas.dinner.ingredients === null) {
-            setProgress( {proteins: progress.proteins + nut.proteins[2], 
-                          carbs: progress.carbs + nut.carbs[2],
-                          fats: progress.fats + nut.fats[2],
-                          calories: progress.calories + nut.calories[2],
-                          progress: progress.progress + (nut.calories[2]/valorCalories[0]*100)})
-          };
+          setProgress( {proteins: progress.proteins - aux.proteins + dinnerIns.proteins, 
+                        carbs: progress.carbs - aux.carbs + dinnerIns.carbs,
+                        fats: progress.fats - aux.fats + dinnerIns.fats,
+                        calories: progress.calories - aux.calories + dinnerIns.calories,
+                        progress: progress.progress - (aux.calories/valorCalories[0]*100) + (dinnerIns.calories/valorCalories[0]*100)})
+          setDinner(dinnerIns)
           break;
         default:
           break;
@@ -214,6 +230,22 @@ const Food = () => {
     useEffect(() => {
       console.log(comidas);
     }, [comidas]);
+
+    const guardarCambios = async () => {
+      if (usuarioActual) {
+        // Crear una copia del arreglo de usuarios
+        const nuevosUsuarios = [...usuarios];
+        const index = nuevosUsuarios.findIndex(u => u.username === usuarioActual.username);
+        if (index !== -1) {
+            nuevosUsuarios[index].progress = progress;
+            await setUsuarios(nuevosUsuarios);
+            setUsuarioActual(usuarios.find(user => user.username === usuario));
+          }
+        } else {
+          alert('Usuario no encontrado.');
+        }
+    };
+  
 
     return (
 
@@ -280,9 +312,9 @@ const Food = () => {
             <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
               <TouchableOpacity style={styles.recipe} onPress={() => {handleSeleccion('recipe1'); selectRecipe(0)}}>
                 <Text style={styles.recipeTitle}>Recipe 1</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe1[0]}</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe1[1]}</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe1[2]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe1.ingredients[0]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe1.ingredients[1]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe1.ingredients[2]}</Text>
               </TouchableOpacity>
               <RadioButton
                 value="recipe1"
@@ -295,9 +327,9 @@ const Food = () => {
             <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop:'2%' }}>
               <TouchableOpacity style={styles.recipe} onPress={() => {handleSeleccion('recipe2'); selectRecipe(1)}}>
                 <Text style={styles.recipeTitle}>Recipe 2</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe2[0]}</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe2[1]}</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe2[2]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe2.ingredients[0]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe2.ingredients[1]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe2.ingredients[2]}</Text>
               </TouchableOpacity>
               <RadioButton
                 value="recipe2"
@@ -310,9 +342,9 @@ const Food = () => {
             <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop:'2%'}}>
               <TouchableOpacity style={styles.recipe} onPress={() => {handleSeleccion('recipe3'); selectRecipe(2)}}>
                 <Text style={styles.recipeTitle}>Recipe 3</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe3[0]}</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe3[1]}</Text>
-                <Text style={styles.ingredients}>{actualFood.recipe3[2]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe3.ingredients[0]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe3.ingredients[1]}</Text>
+                <Text style={styles.ingredients}>{actualFood.recipe3.ingredients[2]}</Text>
               </TouchableOpacity>
               <RadioButton
                 value="recipe3"

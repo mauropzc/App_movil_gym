@@ -12,11 +12,13 @@ export function GlobalProvider({ children }) {
 
   const [usuarioActual, setUsuarioActual] = useState(null);
 
-  const [progress, setProgress] = useState({proteins:0, carbs:0, fats:0, calories:0, progress:0});
+  const progreso = {progreso: {proteins:0, carbs:0, fats:0, calories:0, progress:0}};
 
-  const [comidas, setComidas] = useState({breakfast:{ingredients:null, nutricion:[]}, 
-                                          lunch:{ingredients:null, nutricion:[]}, 
-                                          dinner:{ingredients:null, nutricion:[]}});
+  const [progress, setProgress] = useState('');
+
+  const [comidas, setComidas] = useState({breakfast:null, 
+                                          lunch:null, 
+                                          dinner:null});
 
   const [count, setCount] = useState(0);
 
@@ -43,7 +45,8 @@ export function GlobalProvider({ children }) {
   const crearUsuario = (datosFisico) => {
     const nuevoUsuario = {
       ...usuarioPerfil,
-      ...datosFisico
+      ...datosFisico,
+      ...progreso
     }
 
     setUsuarios([...usuarios, nuevoUsuario]);

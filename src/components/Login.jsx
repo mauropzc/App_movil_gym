@@ -7,7 +7,7 @@ import useGlobalContext from './hooks/useGlobalContext';
 
 const Login = () => {
   const { navigate } = useNavigation();
-  const { usuarios, setUsuarioActual } = useGlobalContext(); //Pasa las variables globales necesarias
+  const { usuarios, setUsuarioActual, setProgress } = useGlobalContext(); //Pasa las variables globales necesarias
   //const usuarios = getUsuarios();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +29,7 @@ const Login = () => {
 
   const handleLogin = () => {
     const user = usuarios.find(user => user.username === username && user.password === password);
+    setProgress(user.progreso)
     if (user) {
       // Permitir el ingreso a la aplicación
       //console.log('Usuario autenticado correctamente');

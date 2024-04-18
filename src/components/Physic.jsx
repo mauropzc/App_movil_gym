@@ -12,7 +12,7 @@ const Physic = () => {
   const [altura, setAltura] = useState('');
   const [peso, setPeso] = useState('');
   const [peso_meta, setPeso_meta] = useState('');
-  const [goal, setGoal] = useState('Lose Fat');
+  const [goal, setGoal] = useState('Lose_Fat');
   const [level, setLevel] = useState('Beginner');
   const container1Height = height * 0.1; // Porcentaje para titulo
 
