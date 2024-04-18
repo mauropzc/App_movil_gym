@@ -2,26 +2,48 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import useGlobalContext from './hooks/useGlobalContext';
 
 const EditProfile = () => {
 
   const { navigate } = useNavigation();
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [edad, setEdad] = useState('');
-  const [email, setEmail] = useState('');
-  const [usuario, setUsuario] = useState('');
-  const [contraseña, setContraseña] = useState('');
+  const { usuarios, setUsuarios, usuarioActual, setUsuarioActual } = useGlobalContext();
+  const [nombre, setNombre] = useState(usuarioActual.nombre);
+  const [apellido, setApellido] = useState(usuarioActual.apellido);
+  const [edad, setEdad] = useState(usuarioActual.edad);
+  const [email, setEmail] = useState(usuarioActual.correo);
+  const [usuario, setUsuario] = useState(usuarioActual.username);
 
   const onPressProf = () => {
+    guardarCambios()
     navigate ('Profile')
   };
 
-  const handleEdit = () => {
-    // TODO: Implementar la lógica para actualizar la información del usuario
-    // Enviar la información actualizada al servidor y manejar la respuesta
-    console.log('Información actualizada!');
-  };
+  const guardarCambios = async () => {
+    if (usuarioActual) {
+      // Crear una copia del arreglo de usuarios
+      const nuevosUsuarios = [...usuarios];
+      const index = nuevosUsuarios.findIndex(u => u.username === usuarioActual.username);
+      if (index !== -1) {
+        // Verificar si el nuevo nombre de usuario ya está en uso
+        const usernameEnUso = nuevosUsuarios.some((u, i) => i !== index && u.username === usuario);
+        if (usernameEnUso) {
+          alert('El nombre de usuario ya está en uso. Por favor, elige otro.');
+        } else {
+          nuevosUsuarios[index].nombre = nombre;
+          nuevosUsuarios[index].apellido = apellido;
+          nuevosUsuarios[index].edad = edad;
+          nuevosUsuarios[index].correo = email;
+          nuevosUsuarios[index].username = usuario;
+          await setUsuarios(nuevosUsuarios);
+          setUsuarioActual(usuarios.find(user => user.username === usuario));
+          alert('Los cambios se guardaron correctamente.');
+        }
+      } else {
+        alert('Usuario no encontrado.');
+      }
+    }
+  };  
 
   return (
     <View style={[styles.container]}>
@@ -65,14 +87,6 @@ const EditProfile = () => {
           onChangeText={setUsuario}
           value={usuario}
           placeholder="pepito_123"
-        />
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setContraseña}
-          value={contraseña}
-          placeholder="**********"
-          secureTextEntry={true}
         />
       </View>
       < TouchableOpacity  onPress={onPressProf} style={styles.button} >
