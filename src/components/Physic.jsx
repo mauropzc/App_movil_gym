@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import useGlobalContext from './hooks/useGlobalContext';
+import RNPickerSelect from 'react-native-picker-select';
 //import { agregarUsuario } from './Perfil';
 
 const Physic = () => {
@@ -83,21 +84,34 @@ const Physic = () => {
         </View>
         <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Physical Goal</Text>
-          <View style={styles.blueBox}>
-            <Text style={styles.blueBoxText}
-              value={goal}
-            >Lose Fat
-            </Text>
-          </View>
+          
+          <RNPickerSelect
+          style={styles.pickerSelect}
+          placeholder={{ label: 'Lose Fat', value: 'Lose_Fat'}}
+            items={[
+                  { label: 'Keep Fat', value: 'Keep_Fat' },
+                  { label: 'Gain Fat', value: 'Gain_Fat' },
+                ]}
+                value={goal}
+                onValueChange={(text) => setGoal(text)}
+                useNativeAndroidPickerStyle={false}
+          />
         </View>
         <View style={[styles.inputContainer, { marginBottom: Dimensions.get('window').height * 0.01 }]}>
           <Text style={styles.label}>Physical Level</Text>
-          <View style={styles.blueBox}>
-            <Text style={styles.blueBoxText}
-              value={level}
-            >Beginner
-            </Text>
-          </View>
+          <RNPickerSelect
+          style={styles.pickerSelect}
+          placeholder={{ label: 'Beginner', value: 'Beginner'}}
+            items={[
+                  { label: 'Intermediate', value: 'Intermediate' },
+                  { label: 'Advanced', value: 'Advanced' },
+                ]}
+                value={level}
+                onValueChange={(text) => setLevel(text)}
+                
+                useNativeAndroidPickerStyle={false}
+          />
+          
         </View>
       </View>
       <TouchableOpacity
@@ -177,6 +191,23 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get('window').width * 0.04,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  pickerSelect: {
+    inputAndroid: {
+      fontSize: 20,
+      width: '100%',
+      left: 1,
+      fontWeight: 'bold',
+      color:'#268de8',
+      paddingHorizontal: 100,
+      paddingVertical: 7,
+      borderWidth: 2,
+      borderRadius: 8,
+      borderColor: '#268de8'
+    },
+    placeholder: {
+      color: '#268de8',
+    },
   },
 });
 
