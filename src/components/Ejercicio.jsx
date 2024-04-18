@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import { API_URL } from '@env';
 
 const  Ejercicio= () => {
-
   const route = useRoute();
-  const ejercicios = route.params.ejerciciosArray;
-
+  const idCatExcercise = route.params.idCatExcercise;
+  const [ejercicios, setEjercicios] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [indice, setIndice] = useState(0);
+
+  useEffect(() => {
+    getCatExcercises()
+  },[])
+
+  const getCatExcercises = async () => {
+    setLoading(true)
+    try {
+      const response = await axios.get(`${API_URL}/excercises/${idCatExcercise}`);
+      setEjercicios(response.data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const mostrarEjercicioAnterior = () => {
     if (indice > 0) {
@@ -26,13 +44,22 @@ const  Ejercicio= () => {
     daysOfWeek.push(i.toString());
   }
 
+  if (loading || ejercicios.length === 0) {
+    return <Text>Loading...</Text>
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.containerExer}>
-        < Text style={[styles.tittleText, {color: '#ffff'}]}>{ejercicios[indice].nombre}</Text>
+        < Text style={[styles.tittleText, {color: '#ffff'}]}>{ejercicios[indice].name}</Text>
       </View>
       <View style={styles.containerImgExer}>
-        <Image source={ejercicios[indice].ejercicio} style={styles.gif} />
+        <Image
+          source={{
+            uri: ejercicios[indice].urlImg
+          }} 
+          style={styles.gif}
+        />
       </View>
       <View style={styles.containerCount}>
         <View style={{flexDirection: 'row'}}>
@@ -41,7 +68,7 @@ const  Ejercicio= () => {
         </View>
         <View style={{flexDirection: 'row', top:30}}>
             < Text style={[styles.tittleText,{fontSize:26, flex:1}]}>{ejercicios[indice].series}</Text>
-            < Text style={[styles.tittleText,{fontSize:26, flex:1}]}>{ejercicios[indice].repeticiones}</Text>
+            < Text style={[styles.tittleText,{fontSize:26, flex:1}]}>{ejercicios[indice].repetitions}</Text>
         </View>
       </View>
       <View style={styles.pass_btns}>
