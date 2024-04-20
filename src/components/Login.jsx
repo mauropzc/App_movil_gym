@@ -1,31 +1,31 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native';
-import { CheckBox } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
-import useGlobalContext from './hooks/useGlobalContext';
-import { API_URL } from '@env';
+import axios from 'axios'
+import React, { useState } from 'react'
+import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native'
+import { CheckBox } from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native'
+import useGlobalContext from './hooks/useGlobalContext'
+import { API_URL } from '@env'
 
 const Login = () => {
-  const { navigate } = useNavigation();
-  const { usuarios, setUsuarioActual } = useGlobalContext(); //Pasa las variables globales necesarias
-  //const usuarios = getUsuarios();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('User or pass incorrect');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isPressed, setIsPressed] = useState(false);
+  const { navigate } = useNavigation()
+  const { usuarios, setUsuarioActual } = useGlobalContext() // Pasa las variables globales necesarias
+  // const usuarios = getUsuarios();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('User or pass incorrect')
+  const [rememberMe, setRememberMe] = useState(false)
+  const [isPressed, setIsPressed] = useState(false)
 
   const onPressLog = () => {
-    navigate ('Menu')
- };
+    navigate('Menu')
+  }
 
   const onPress = () => {
-     navigate ('perfil')
-  };
+    navigate('perfil')
+  }
 
   const onPressPass = () => {
-     navigate ('Forgot')
+    navigate('Forgot')
   }
 
   const handleLogin = async () => {
@@ -33,64 +33,60 @@ const Login = () => {
       const response = await axios.post(`${API_URL}/auth/login`, {
         username,
         password
-      });
-      console.log(response.data);
-      setUsuarioActual(response.data);
-      navigate('Menu');
-
+      })
+      console.log(response.data)
+      setUsuarioActual(response.data)
+      navigate('Menu')
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Error', 'User or pass incorrect')
     }
-    catch (error) {
-      console.log(error);
-      Alert.alert('Error', 'User or pass incorrect');
-    }
-
-
   }
 
-
   return (
-    
+
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')}></Image>
+      <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')} />
       <Text style={styles.title}> Sign In</Text>
       <Text style={styles.labels}>   Username</Text>
       <TextInput
         style={styles.input}
-        placeholder="name@example.com"
+        placeholder='name@example.com'
         onChangeText={setUsername}
       />
-      
+
       <Text style={styles.labels}>   Password</Text>
       <TextInput
         style={styles.input}
-        placeholder="*******"
-        secureTextEntry={true}
+        placeholder='*******'
+        secureTextEntry
         onChangeText={setPassword}
       />
-          
+
       <TouchableOpacity
         onPress={handleLogin}
-      
-        style = {{
-            ...styles.button,
-            backgroundColor: '#2196f3'
+
+        style={{
+          ...styles.button,
+          backgroundColor: '#2196f3'
         }}
-      >  
+      >
         <Text
-            style = {{
-                ...styles.buttonText,
-                color: '#f1f1f1'
-            }}
-        >Log in</Text>
+          style={{
+            ...styles.buttonText,
+            color: '#f1f1f1'
+          }}
+        >Log in
+        </Text>
       </TouchableOpacity>
 
-        <CheckBox
-          title= "Remember me"
-          checked={rememberMe}
-          onPress={() => setRememberMe(!rememberMe)}
-          containerStyle={styles.checkboxContainer}
-          textStyle={styles.text}
-        />
+      <CheckBox
+        title='Remember me'
+        checked={rememberMe}
+        onPress={() => setRememberMe(!rememberMe)}
+        containerStyle={styles.checkboxContainer}
+        textStyle={styles.text}
+      />
 
       <View style={styles.row}>
         <TouchableOpacity onPress={onPressPass}>
@@ -101,11 +97,10 @@ const Login = () => {
           <Text style={styles.text_sign}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-          
+
     </View>
   )
-  
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -134,36 +129,36 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   logo: {
-    //marginTop: 10,
+    // marginTop: 10,
     width: '100%',
     height: '40%',
-    resizeMode: 'cover',
+    resizeMode: 'cover'
   },
   checkboxContainer: {
     borderWidth: 0,
     backgroundColor: 'transparent',
     marginTop: -20,
     marginLeft: 15
-    
+
   },
   text_pass: {
     fontSize: 18,
     paddingHorizontal: 15,
-    marginLeft: 15,
-    
+    marginLeft: 15
+
   },
   text_sign: {
     fontSize: 18,
     textAlign: 'right',
     fontWeight: 'bold',
     paddingHorizontal: 15,
-    marginRight: 15,
-    
+    marginRight: 15
+
   },
   row: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
 
   button: {
@@ -177,7 +172,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     fontSize: 20
-}
-});
+  }
+})
 
 export default Login

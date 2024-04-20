@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 import Constants from 'expo-constants'
-import { View } from 'react-native';
+import { View } from 'react-native'
 import Main from './src/components/Main.jsx'
 
-export default function App() {
+export default function App () {
   return (
-    <View style={{marginTop: Constants.statusBarHeight, flexGrow: 1}}>
+    <View style={{ marginTop: Constants.statusBarHeight, flexGrow: 1 }}>
       <Main />
     </View>
-  );
+  )
 }

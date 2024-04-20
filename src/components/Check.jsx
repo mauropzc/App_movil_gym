@@ -1,71 +1,72 @@
-import React from "react";
-import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image } from 'react-native';
+import React from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image } from 'react-native'
 
-const Check = () =>{
-    const { navigate } = useNavigation();
-    //Funcion para ir al login
-    const onPress = () => {
-        navigate ('Login')
-     };
-    return(
-        <View style={styles.container}>
+const Check = () => {
+  const { navigate } = useNavigation()
+  // Funcion para ir al login
+  const onPress = () => {
+    navigate('Login')
+  }
+  return (
+    <View style={styles.container}>
 
-            <Text style={styles.title}>Check your</Text>
-            <Text style={styles.title}>Email</Text>
+      <Text style={styles.title}>Check your</Text>
+      <Text style={styles.title}>Email</Text>
 
-            <Image style={styles.logo} source={require('./../../assets/img/email.png')}></Image>
+      <Image style={styles.logo} source={require('./../../assets/img/email.png')} />
 
-            <TouchableOpacity
-                onPress={onPress}
-                style = {{
-                    ...styles.button,
-                    backgroundColor: '#2196f3'
-                }}
-            >  
-                <Text
-                    style = {{
-                        ...styles.buttonText,
-                        color: '#f1f1f1'
-                    }}
-                >Continue</Text>
-            </TouchableOpacity>
+      <TouchableOpacity
+        onPress={onPress}
+        style={{
+          ...styles.button,
+          backgroundColor: '#2196f3'
+        }}
+      >
+        <Text
+          style={{
+            ...styles.buttonText,
+            color: '#f1f1f1'
+          }}
+        >Continue
+        </Text>
+      </TouchableOpacity>
 
-        </View>
-    )
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 
-    title: {
-        fontSize: 50,
-        fontWeight: 'bold',
-    },
-    
-    logo: {
-        //marginTop: 10,
-        width: 150,
-        height: 150
-        //resizeMode: 'cover',
-    },
+  title: {
+    fontSize: 50,
+    fontWeight: 'bold'
+  },
 
-    button: {
-        alignSelf: 'center',
-        borderRadius: 20,
-        paddingVertical: 15,
-        width: '90%',
-        margin: 20
-    },
+  logo: {
+    // marginTop: 10,
+    width: 150,
+    height: 150
+    // resizeMode: 'cover',
+  },
 
-    buttonText: {
-        textAlign: 'center',
-        fontSize: 20
-    }
+  button: {
+    alignSelf: 'center',
+    borderRadius: 20,
+    paddingVertical: 15,
+    width: '90%',
+    margin: 20
+  },
+
+  buttonText: {
+    textAlign: 'center',
+    fontSize: 20
+  }
 })
 
 export default Check
