@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native'
+import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert, ScrollView } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 import useGlobalContext from './hooks/useGlobalContext'
@@ -44,61 +44,62 @@ const Login = () => {
   }
 
   return (
+    <ScrollView style={styles.container}>
+      <View>
+        <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')} />
+        <Text style={styles.title}> Sign In</Text>
+        <Text style={styles.labels}>   Username</Text>
+        <TextInput
+          style={styles.input}
+          placeholder='name@example.com'
+          onChangeText={setUsername}
+        />
 
-    <View style={styles.container}>
-      <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')} />
-      <Text style={styles.title}> Sign In</Text>
-      <Text style={styles.labels}>   Username</Text>
-      <TextInput
-        style={styles.input}
-        placeholder='name@example.com'
-        onChangeText={setUsername}
-      />
+        <Text style={styles.labels}>   Password</Text>
+        <TextInput
+          style={styles.input}
+          placeholder='*******'
+          secureTextEntry
+          onChangeText={setPassword}
+        />
 
-      <Text style={styles.labels}>   Password</Text>
-      <TextInput
-        style={styles.input}
-        placeholder='*******'
-        secureTextEntry
-        onChangeText={setPassword}
-      />
+        <TouchableOpacity
+          onPress={handleLogin}
 
-      <TouchableOpacity
-        onPress={handleLogin}
-
-        style={{
-          ...styles.button,
-          backgroundColor: '#2196f3'
-        }}
-      >
-        <Text
           style={{
-            ...styles.buttonText,
-            color: '#f1f1f1'
+            ...styles.button,
+            backgroundColor: '#2196f3'
           }}
-        >Log in
-        </Text>
-      </TouchableOpacity>
-
-      <CheckBox
-        title='Remember me'
-        checked={rememberMe}
-        onPress={() => setRememberMe(!rememberMe)}
-        containerStyle={styles.checkboxContainer}
-        textStyle={styles.text}
-      />
-
-      <View style={styles.row}>
-        <TouchableOpacity onPress={onPressPass}>
-          <Text style={styles.text_pass}>Forgot Password?</Text>
+        >
+          <Text
+            style={{
+              ...styles.buttonText,
+              color: '#f1f1f1'
+            }}
+          >Log in
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onPress}>
-          <Text style={styles.text_sign}>Sign Up</Text>
-        </TouchableOpacity>
+        <CheckBox
+          title='Remember me'
+          checked={rememberMe}
+          onPress={() => setRememberMe(!rememberMe)}
+          containerStyle={styles.checkboxContainer}
+          textStyle={styles.text}
+        />
+
+        <View style={styles.row}>
+          <TouchableOpacity onPress={onPressPass}>
+            <Text style={styles.text_pass}>Forgot Password?</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={onPress}>
+            <Text style={styles.text_sign}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
-
-    </View>
+    </ScrollView>
   )
 }
 
