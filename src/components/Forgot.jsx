@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { TouchableOpacity, StyleSheet, Text, TextInput, View } from 'react-native'
+import { TouchableOpacity, StyleSheet, Text, TextInput, View, Alert } from 'react-native'
+import axios from 'axios'
+import { API_URL } from '@env'
 
 const Forgot = () => {
   const { navigate } = useNavigation()
-  // Funcion para llevar a la interfaz de checkear email
-  const onPress = () => {
-    navigate('Check')
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const onPress = async () => {
+    setLoading(true)
+    try {
+      await axios.post(`${API_URL}/email`, {
+        email
+      })
+      Alert.alert('Success', 'Email sent')
+      navigate('Check')
+    } catch (error) {
+      Alert.alert('Error', 'Email not found')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -20,6 +35,8 @@ const Forgot = () => {
       <TextInput
         style={styles.input}
         placeholder='name@example.com'
+        value={email}
+        onChangeText={setEmail}
       />
 
       <TouchableOpacity
@@ -34,7 +51,7 @@ const Forgot = () => {
             ...styles.buttonText,
             color: '#f1f1f1'
           }}
-        >Reset
+        >{loading ? 'Cargando...' : 'Reset'}
         </Text>
       </TouchableOpacity>
 
