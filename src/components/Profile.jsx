@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import MenuBar from './MenuBar'
-import useGlobalContext from './hooks/useGlobalContext'
+import useGlobalContext from '../hooks/useGlobalContext'
 
 const Profile = () => {
   const { navigate } = useNavigation()

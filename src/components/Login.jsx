@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert, ScrollView } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
-import useGlobalContext from './hooks/useGlobalContext'
+import useGlobalContext from '../hooks/useGlobalContext'
 import { API_URL } from '@env'
 
 const Login = () => {

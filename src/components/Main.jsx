@@ -14,7 +14,7 @@ import Profile from './Profile.jsx'
 import EditProfile from './EditProfile.jsx'
 import Food from './Food.jsx'
 import Report from './Report.jsx'
-import { GlobalProvider } from './contexts/globalContext.jsx'
+import { GlobalProvider } from '../contexts/globalContext.jsx'
 
 const Stack = createStackNavigator()
 

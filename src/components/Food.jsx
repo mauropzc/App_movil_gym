@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import Swiper from 'react-native-swiper'
 import Svg, { Circle, G } from 'react-native-svg'
 import MenuBar from './MenuBar'
-import useGlobalContext from './hooks/useGlobalContext'
+import useGlobalContext from '../hooks/useGlobalContext'
 import RNPickerSelect from 'react-native-picker-select'
 import { RadioButton } from 'react-native-paper'
 

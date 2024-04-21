@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import useGlobalContext from './hooks/useGlobalContext'
+import useGlobalContext from '../hooks/useGlobalContext'
 import axios from 'axios'
 import { API_URL } from '@env'
 

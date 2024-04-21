@@ -1,20 +1,48 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button, TextInput, Modal } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import Svg, { Circle, G } from 'react-native-svg'
+import axios from 'axios'
 import MenuBar from './MenuBar'
-import useGlobalContext from './hooks/useGlobalContext'
+import ProgressCircle from './ProgressCircle'
+import useGlobalContext from '../hooks/useGlobalContext'
+import { API_URL } from '@env'
 
 const Report = () => {
   const { navigate } = useNavigation()
   const navigation = useNavigation()
   const { usuarioActual, setUsuarioActual } = useGlobalContext()
   const [modalVisible, setModalVisible] = useState(false)
+  const [physicalInfo, setPhysicalInfo] = useState({})
+  const [regDiaries, setRegDiaries] = useState([])
+
   const [actual, setActual] = useState('')
   const [dates, setDates] = useState([])
   const { usuarios, setUsuarios } = useGlobalContext()
-  const peso = usuarioActual.peso
-  const peso_meta = usuarioActual.peso_meta
+  const peso = physicalInfo.weight
+  const peso_meta = physicalInfo.weightGoal
+
+  useEffect(() => {
+    getPhysicalInfoUser()
+    getRegDiaryByUser()
+  }, [])
+
+  const getPhysicalInfoUser = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/physicalinfo/${usuarioActual.id}`)
+      setPhysicalInfo(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getRegDiaryByUser = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/regdiaries/${usuarioActual.id}`)
+      setRegDiaries(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   // imprimir los check-in creados
   const verificar_dates = () => {
@@ -61,47 +89,6 @@ const Report = () => {
       return acc
     }, [])
   }
-
-  const ProgressCircle = ({ progress, size, strokeWidth }) => {
-    const radius = (size - strokeWidth) / 2
-    const circumference = radius * 2 * Math.PI
-    const progressStrokeDashoffset = circumference - (progress / 100) * circumference
-
-    return (
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Svg width={size} height={size}>
-          <G rotation='-90' origin={`${size / 2},${size / 2}`}>
-            {/* Fondo transparente */}
-            <Circle
-              cx={size / 2}
-              cy={size / 2}
-              r={radius}
-              fill='transparent'
-              strokeWidth={strokeWidth}
-              stroke='#E0E0E0' // Color del progreso
-            />
-            {/* Círculo de progreso */}
-            <Circle
-              cx={size / 2}
-              cy={size / 2}
-              r={radius}
-              fill='none'
-              stroke='#3498db' // Color del progreso
-              strokeWidth={strokeWidth}
-              strokeLinecap='round'
-              strokeDasharray={`${circumference}, ${circumference}`}
-              strokeDashoffset={progressStrokeDashoffset}
-            />
-          </G>
-        </Svg>
-      </View>
-    )
-  }
-
-  // Recuperar los check-in
-  /* useEffect(() => {
-    setDates(usuarioActual.dates || []);
-  }, [usuarioActual.dates]); */
 
   const datesRef = useRef(dates)
 

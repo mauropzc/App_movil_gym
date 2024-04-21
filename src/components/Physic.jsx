@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import useGlobalContext from './hooks/useGlobalContext'
+import useGlobalContext from '../hooks/useGlobalContext'
 import RNPickerSelect from 'react-native-picker-select'
 // import { agregarUsuario } from './Perfil';
 
