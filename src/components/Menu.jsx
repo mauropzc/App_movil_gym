@@ -19,7 +19,6 @@ const Menu = () => {
   const getCatExcercises = async () => {
     try {
       const response = await axios.get(`${API_URL}/catexcercises`)
-      console.log(response.data)
       setCatExcercises(response.data)
     } catch (error) {
       console.log(error)
