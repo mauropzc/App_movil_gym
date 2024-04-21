@@ -1,6 +1,5 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useState } from 'react'
 import { Alert } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import useAsyncStorage from '../hooks/useAsyncStorage'
 import axios from 'axios'
 import { API_URL } from '@env'
@@ -53,20 +52,16 @@ export function GlobalProvider ({ children }) {
       ...usuarioCheck
     }
 
-    console.log(nuevoUsuario)
-
     try {
-      const response = await axios.post(`${API_URL}/users`,
+      await axios.post(`${API_URL}/users`,
         nuevoUsuario
       )
       Alert.alert('Success', 'User created successfully')
-      console.log(response.data)
     } catch (error) {
       console.log(error)
       Alert.alert('Error', 'Error creating user')
     }
   }
-  console.log('usuarios', usuarios)
 
   return (
     <GlobalContext.Provider
