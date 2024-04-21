@@ -1,46 +1,38 @@
 // Perfil
 import React, { useState } from 'react'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import useGlobalContext from './hooks/useGlobalContext'
+import axios from 'axios'
+import { API_URL } from '@env'
 
 const EditProfile = () => {
   const { navigate } = useNavigation()
-  const { usuarios, setUsuarios, usuarioActual, setUsuarioActual } = useGlobalContext()
-  const [nombre, setNombre] = useState(usuarioActual.nombre)
-  const [apellido, setApellido] = useState(usuarioActual.apellido)
-  const [edad, setEdad] = useState(usuarioActual.edad)
-  const [email, setEmail] = useState(usuarioActual.correo)
+  const { usuarioActual, setUsuarioActual } = useGlobalContext()
+  const [nombre, setNombre] = useState(usuarioActual.name)
+  const [apellido, setApellido] = useState(usuarioActual.lastname)
+  const [edad, setEdad] = useState(usuarioActual.age.toString())
+  const [email, setEmail] = useState(usuarioActual.email)
   const [usuario, setUsuario] = useState(usuarioActual.username)
 
   const onPressProf = () => {
-    guardarCambios()
+    saveUser()
     navigate('Profile')
   }
 
-  const guardarCambios = async () => {
-    if (usuarioActual) {
-      // Crear una copia del arreglo de usuarios
-      const nuevosUsuarios = [...usuarios]
-      const index = nuevosUsuarios.findIndex(u => u.username === usuarioActual.username)
-      if (index !== -1) {
-        // Verificar si el nuevo nombre de usuario ya está en uso
-        const usernameEnUso = nuevosUsuarios.some((u, i) => i !== index && u.username === usuario)
-        if (usernameEnUso) {
-          alert('El nombre de usuario ya está en uso. Por favor, elige otro.')
-        } else {
-          nuevosUsuarios[index].nombre = nombre
-          nuevosUsuarios[index].apellido = apellido
-          nuevosUsuarios[index].edad = edad
-          nuevosUsuarios[index].correo = email
-          nuevosUsuarios[index].username = usuario
-          await setUsuarios(nuevosUsuarios)
-          setUsuarioActual(usuarios.find(user => user.username === usuario))
-          alert('Los cambios se guardaron correctamente.')
-        }
-      } else {
-        alert('Usuario no encontrado.')
-      }
+  const saveUser = async () => {
+    try {
+      const response = await axios.put(`${API_URL}/users/${usuarioActual.username}`, {
+        name: nombre,
+        lastname: apellido,
+        age: parseInt(edad),
+        email,
+        username: usuario
+      })
+      setUsuarioActual(response.data)
+      Alert.alert('Success', 'User updated successfully')
+    } catch (error) {
+      Alert.alert('Error', 'Error updating user')
     }
   }
 
