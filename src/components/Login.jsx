@@ -15,6 +15,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('User or pass incorrect')
   const [rememberMe, setRememberMe] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const onPressLog = () => {
     navigate('Menu')
@@ -29,17 +30,19 @@ const Login = () => {
   }
 
   const handleLogin = async () => {
+    setLoading(true)
     try {
       const response = await axios.post(`${API_URL}/auth/login`, {
         username,
         password
       })
-      console.log(response.data)
       setUsuarioActual(response.data)
       navigate('Menu')
     } catch (error) {
       console.log(error)
       Alert.alert('Error', 'User or pass incorrect')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -65,7 +68,6 @@ const Login = () => {
 
         <TouchableOpacity
           onPress={handleLogin}
-
           style={{
             ...styles.button,
             backgroundColor: '#2196f3'
@@ -76,7 +78,7 @@ const Login = () => {
               ...styles.buttonText,
               color: '#f1f1f1'
             }}
-          >Log in
+          >{loading ? 'Cargando...' : 'Log in'}
           </Text>
         </TouchableOpacity>
 
