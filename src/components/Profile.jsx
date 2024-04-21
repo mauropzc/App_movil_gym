@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput } from 'react-native'
+import React from 'react'
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import MenuBar from './MenuBar'
 import useGlobalContext from './hooks/useGlobalContext'
@@ -7,11 +7,6 @@ import useGlobalContext from './hooks/useGlobalContext'
 const Profile = () => {
   const { navigate } = useNavigation()
   const { usuarioActual } = useGlobalContext()
-  const [showPassword, setShowPassword] = useState(false)
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
 
   const onPressProfile = () => {
     navigate('EditProfile')
@@ -37,36 +32,22 @@ const Profile = () => {
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/user2.png')} style={{ height: 25, width: 22 }} />
           <Text style={[styles.text, { fontWeight: 'bold' }]}>Name: </Text>
-          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>{[usuarioActual.nombre, ' ', usuarioActual.apellido]}</Text>
+          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>{[usuarioActual.name, ' ', usuarioActual.lastname]}</Text>
         </View>
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/email.png')} style={{ height: 25, width: 25 }} />
           <Text style={[styles.text, { fontWeight: 'bold' }]}>Email:</Text>
-          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>{usuarioActual.correo}</Text>
+          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>{usuarioActual.email}</Text>
         </View>
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/age.png')} style={{ height: 25, width: 25 }} />
           <Text style={[styles.text, { fontWeight: 'bold' }]}>Age:</Text>
-          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>{usuarioActual.edad}</Text>
+          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>{usuarioActual.age}</Text>
         </View>
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/goal.png')} style={{ height: 25, width: 25 }} />
           <Text style={[styles.text, { fontWeight: 'bold' }]}>Goal:</Text>
-          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>{usuarioActual.meta}</Text>
-        </View>
-        <View style={styles.dates}>
-          <Image source={require('./../../assets/img/key.png')} style={{ height: 25, width: 25 }} />
-          <Text style={[styles.text, { fontWeight: 'bold' }]}>Password:</Text>
-          <TouchableOpacity style={[styles.text, { paddingLeft: 0, width: '35%' }]} onPress={togglePasswordVisibility}>
-            <TextInput
-              style={[styles.text, { paddingLeft: 0, width: '35%' }]}
-              value={showPassword ? usuarioActual.password : '*'.repeat(usuarioActual.password.length)}
-              editable={false}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={togglePasswordVisibility}>
-            <Image source={showPassword ? require('./../../assets/img/eye-slash.png') : require('./../../assets/img/eye.png')} style={{ height: 22, width: 25 }} />
-          </TouchableOpacity>
+          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>meta peso</Text>
         </View>
       </View>
 
