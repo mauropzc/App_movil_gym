@@ -12,8 +12,6 @@ export function GlobalProvider({ children }) {
 
   const [usuarioActual, setUsuarioActual] = useState(null);
 
-  const progreso = {progreso: {proteins:0, carbs:0, fats:0, calories:0, progress:0}};
-
   const [progress, setProgress] = useState('');
 
   const [comidas, setComidas] = useState({breakfast:null, 
@@ -25,6 +23,8 @@ export function GlobalProvider({ children }) {
   const [lastIncrementDate, setLastIncrementDate] = useState(null);
 
   const valorCalories = totalCalories(usuarioActual);
+
+  const progreso = {progreso: {proteins:0, carbs:0, fats:0, calories:0, progress:0}};
 
   function totalCalories(usuario) {
     if (usuario != null) {
