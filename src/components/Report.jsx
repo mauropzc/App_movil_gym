@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button, TextInput, Mod
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import MenuBar from './MenuBar'
-import ProgressCircle from './ProgressCircle'
+import ProgressCircle from 'react-native-progress-circle'
 import useGlobalContext from '../hooks/useGlobalContext'
 import { API_URL } from '@env'
 
@@ -20,6 +20,13 @@ const Report = () => {
   const { usuarios, setUsuarios } = useGlobalContext()
   const peso = physicalInfo.weight
   const peso_meta = physicalInfo.weightGoal
+  
+  const pesos = {
+    weight : physicalInfo.weight,
+    weightGoal : physicalInfo.weightGoal,
+    weightActual : 70
+    
+  }
 
   useEffect(() => {
     getPhysicalInfoUser()
@@ -219,31 +226,18 @@ const Report = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {/* Usando el componente ProgressCircle */}
           <View style={{ marginRight: 20 }}>
-            {dates.length > 0
-              ? (
-                  peso === peso_meta
-                    ? (
-                        peso_meta - dates[0].split(',')[1] < 0
-                          ? (
-                            <ProgressCircle progress={(100) - (((peso_meta - dates[0].split(',')[1]) / peso_meta) * -100)} size={100} strokeWidth={16} backgroundColor='black' />
-                            )
-                          : peso_meta - dates[0].split(',')[1] === 0
-                            ? (
-                              <ProgressCircle progress={100} size={100} strokeWidth={16} backgroundColor='black' />
-                              )
-                            : (
-                              <ProgressCircle progress={(100) - (((peso_meta - dates[0].split(',')[1]) / peso_meta) * 100)} size={100} strokeWidth={16} backgroundColor='black' />
-                              )
-                      )
-                    : (
-                      <ProgressCircle progress={100 * ((peso - dates[0].split(',')[1]) / (peso - peso_meta))} size={100} strokeWidth={16} backgroundColor='black' />
-                      )
-                )
-              : peso === peso_meta
-                ? (
-                  <ProgressCircle progress={100} size={100} strokeWidth={16} backgroundColor='black' />)
-                : (<ProgressCircle progress={0} size={100} strokeWidth={16} backgroundColor='black' />)}
-            {/* <ProgressCircle progress={porcentaje} size={100} strokeWidth={16} backgroundColor="black" /> */}
+            <View style={styles.ProgressCircle}>
+            <ProgressCircle
+              percent={50}
+              radius={50}
+              borderWidth={14}
+              color='#268de8'
+              shadowColor='#E8E8E8'
+              bgColor='#fff'
+            >
+              
+            </ProgressCircle>
+          </View>
           </View>
 
           {/* Información de peso */}
@@ -254,9 +248,9 @@ const Report = () => {
           </View>
           {/* Valores de peso */}
           <View style={{ marginLeft: 10 }}>
-            <Text style={styles.weightValue}>{peso}kg</Text>
-            <Text style={styles.weightValue}>{dates.length === 0 ? peso : dates[0].split(',')[1]}kg</Text>
-            <Text style={styles.weightValue}>{peso_meta}kg</Text>
+            <Text style={styles.weightValue}>{pesos.weight}kg</Text>
+            <Text style={styles.weightValue}>{pesos.weightActual}kg</Text>
+            <Text style={styles.weightValue}>{pesos.weightGoal}kg</Text>
           </View>
         </View>
       </View>
@@ -304,6 +298,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20
+  },
+  ProgressCircle: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#00FF0000',
+    padding: '3%'
   },
   buttonContainer: {
     flexDirection: 'row',
