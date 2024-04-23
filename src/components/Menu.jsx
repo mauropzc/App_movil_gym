@@ -8,22 +8,34 @@ import { API_URL } from '@env'
 const Menu = () => {
   const { navigate } = useNavigation()
   const [catExcercises, setCatExcercises] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getCatExcercises()
   }, [])
 
   const getCatExcercises = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${API_URL}/catexcercises`)
       setCatExcercises(response.data)
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
   const onPress = (idCatExcercise) => {
     navigate('Ejercicio', { idCatExcercise })
+  }
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    )
   }
 
   return (
