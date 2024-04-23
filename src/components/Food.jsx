@@ -3,7 +3,6 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import Swiper from 'react-native-swiper'
 import MenuBar from './MenuBar'
 import RNPickerSelect from 'react-native-picker-select'
-import ProgressCircle from 'react-native-progress-circle'
 import { useNavigation } from '@react-navigation/native'
 import useGlobalContext from '../hooks/useGlobalContext'
 import axios from 'axios'
@@ -92,8 +91,6 @@ const Food = () => {
       </View>
     )
   }
-
-  console.log('------->fd', foodsDiary)
 
   return (
     <View style={styles.container}>
