@@ -38,7 +38,7 @@ const Food = () => {
       const foodsFiltered = dataFoods.data.filter((food) => food.idcatfood === selectedCatFood)
 
       const dataFoodsDiaries = await axios.get(`${API_URL}/foodDiaries/today/${usuarioActual.id}`)
-      setFoodsDiary(dataFoodsDiaries.data)
+      setFoodsDiary([...dataFoodsDiaries.data])
       setFoodsByCategory(foodsFiltered)
       setFoodDiaryByCatFood(dataFoodsDiaries.data.find((food) => food.food.idcatfood === selectedCatFood))
     } catch (error) {
@@ -53,6 +53,23 @@ const Food = () => {
     setFoodsByCategory(foodsFiltered)
     setSelectedCatFood(idcatfood)
     setFoodDiaryByCatFood(foodsDiary.find((food) => food.food.idcatfood === idcatfood))
+  }
+
+  const selectNewFood = (idfood, foodDiary) => {
+    const auxFood = foods.find((food) => food.id === idfood)
+    if (foodDiary) {
+      const auxFoodDiaryTemp = foodsDiary.map((food) => {
+        if (food.id === foodDiary.id) {
+          food.food = auxFood
+          food.idfood = idfood
+        }
+        return food
+      })
+      setFoodsDiary(auxFoodDiaryTemp)
+      updateFoodDiary(foodDiary, idfood)
+    } else {
+      registerFoodDiary(idfood)
+    }
   }
 
   const registerFoodDiary = async (selectedFood) => {
@@ -72,13 +89,10 @@ const Food = () => {
 
   const updateFoodDiary = async (currentFood, selectedFood) => {
     try {
-      const response = await axios.put(`${API_URL}/foodDiaries/${currentFood.id}`, {
+      await axios.put(`${API_URL}/foodDiaries/${currentFood.id}`, {
         iduser: usuarioActual.id,
         idfood: selectedFood
       })
-      const newReg = response.data
-      newReg.food = foods.find((food) => food.id === selectedFood)
-      setFoodsDiary(foodsDiary.map((food) => (food.id === currentFood.id ? newReg : food)))
     } catch (error) {
       console.log(error)
     }
@@ -131,11 +145,9 @@ const Food = () => {
       />
 
       <SelectFood
-        selectedCatFood={selectedCatFood}
         foodsByCategory={foodsByCategory}
         foodDiary={foodDiaryByCatFood}
-        registerFoodDiary={registerFoodDiary}
-        updateFoodDiary={updateFoodDiary}
+        selectNewFood={selectNewFood}
       />
 
       <View style={{ width: '100%', height: '11%' }} />

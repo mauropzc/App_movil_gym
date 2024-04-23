@@ -4,11 +4,9 @@ import { ScrollView, Text, View, StyleSheet, TouchableOpacity } from 'react-nati
 import { RadioButton } from 'react-native-paper'
 
 const SelectFood = ({
-  selectedCatFood,
   foodsByCategory,
   foodDiary,
-  registerFoodDiary,
-  updateFoodDiary
+  selectNewFood
 }) => {
   const [selectedValue, setSelectedValue] = useState(0)
 
@@ -16,22 +14,19 @@ const SelectFood = ({
     setSelectedValue(foodDiary ? foodDiary.idfood : 0)
   }, [foodDiary])
 
-  const handleOnPress = () => {
-    if (foodDiary) {
-      updateFoodDiary(foodDiary, selectedValue)
-    } else {
-      registerFoodDiary(selectedValue)
-    }
+  const handleSelectNewFood = (idfood) => {
+    selectNewFood(idfood, foodDiary)
+    setSelectedValue(idfood)
   }
 
   return (
     <>
       <ScrollView style={styles.scrollView}>
         <>
-          <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
+          <RadioButton.Group onValueChange={value => handleSelectNewFood(value)} value={selectedValue}>
             {foodsByCategory.map((food) => (
               <View key={food.id} style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop: '2%' }}>
-                <TouchableOpacity style={styles.recipe} onPress={() => setSelectedValue(food.id)}>
+                <TouchableOpacity style={styles.recipe} onPress={() => handleSelectNewFood(food.id)}>
                   <Text style={styles.recipeTitle}>{food.name}</Text>
                   {food.ingredients.map((ingredient, index) => (
                     <Text key={index} style={styles.ingredients}>{ingredient.name}</Text>
@@ -46,9 +41,6 @@ const SelectFood = ({
           </RadioButton.Group>
         </>
       </ScrollView>
-      <TouchableOpacity style={styles.button} onPress={() => handleOnPress(selectedCatFood)}>
-        <Text style={styles.buttonText}>{foodDiary ? 'Update' : 'Save'}</Text>
-      </TouchableOpacity>
     </>
   )
 }
