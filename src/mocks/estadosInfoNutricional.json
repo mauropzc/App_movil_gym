@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Lose_Fat",
+    "calories": 1002,
+    "proteins": 72,
+    "carbs": 66,
+    "fats": 50
+  },
+  {
+    "name": "Gain_Fat",
+    "calories": 3002,
+    "proteins": 186,
+    "carbs": 182,
+    "fats": 170
+  },
+  {
+    "name": "Keep_Fat",
+    "calories": 2005,
+    "proteins": 115,
+    "carbs": 123,
+    "fats": 117
+  }
+] 
