@@ -11,68 +11,34 @@ const Report = () => {
   const { navigate } = useNavigation()
   const navigation = useNavigation()
   const { usuarioActual, setUsuarioActual } = useGlobalContext()
+
   const [modalVisible, setModalVisible] = useState(false)
   const [physicalInfo, setPhysicalInfo] = useState({})
   const [regDiaries, setRegDiaries] = useState([])
-  const [porcentaje, setPorcentaje] = useState(0)
-
   const [actual, setActual] = useState('')
   const [dates, setDates] = useState([])
   const { usuarios, setUsuarios } = useGlobalContext()
-  const peso = physicalInfo.weight
-  const peso_meta = physicalInfo.weightGoal
   
-  
+  const [porcentaje, setPorcentaje] = useState(0);
+
   const pesos = {
     weight : physicalInfo.weight,
     weightGoal : physicalInfo.weightGoal,
-    weightActual : 55
+    weightActual: dates.length === 0  ? physicalInfo.weight : dates[0].split(',')[1]
   }
-
-  
 
   useEffect(() => {
     getPhysicalInfoUser()
     getRegDiaryByUser()
-    let mas_actual = pesos.weight
-    let nuevoPorcentaje 
-
-    if (dates.length > 0) {
-      mas_actual = dates[0].split(',')[1]
-      if (pesos.weight === pesos.weightGoal) {
-        let diferencia = pesos.weightGoal - mas_actual;
-
-        if (diferencia < 0) {
-          diferencia = diferencia * -1;
-          nuevoPorcentaje = (100) - ((diferencia / pesos.weightGoal) * 100);
-          nuevoPorcentaje = nuevoPorcentaje.toFixed(2);
-          setPorcentaje(nuevoPorcentaje);
-        } else 
-          if (diferencia === 0) {
-            nuevoPorcentaje = 100;
-            setPorcentaje(nuevoPorcentaje);
-          } else {
-            nuevoPorcentaje = (100) - ((diferencia / pesos.weightGoal) * 100);
-            nuevoPorcentaje = nuevoPorcentaje.toFixed(2);
-            setPorcentaje(nuevoPorcentaje);
-        }
-      } else {
-        nuevoPorcentaje = (100) * ((pesos.weight - mas_actual) / (pesos.weight - pesos.weightGoal));
-        nuevoPorcentaje = nuevoPorcentaje.toFixed(2);
-        setPorcentaje(nuevoPorcentaje);
-      }
-    } else {
-      if (pesos.weight === pesos.weightGoal) {
-        nuevoPorcentaje = 100;
-        nuevoPorcentaje = nuevoPorcentaje;
-        setPorcentaje(nuevoPorcentaje);
-      } else {
-        nuevoPorcentaje = 0;
-        nuevoPorcentaje = nuevoPorcentaje;
-        setPorcentaje(nuevoPorcentaje);
-      }
-    }
+    
   }, [])
+
+  useEffect(() => {
+    // Calcular el porcentaje
+    if (physicalInfo.weight !== undefined) {
+      calcularPorcentaje();
+    }
+  }, [physicalInfo, regDiaries]);
 
   const getPhysicalInfoUser = async () => {
     try {
@@ -92,23 +58,49 @@ const Report = () => {
     }
   }
 
-  // imprimir los check-in creados
-  const verificar_dates = () => {
-    console.log(dates)
+  const calcularPorcentaje = () => {
+    let mas_actual = pesos.weightActual
+    let nuevoPorcentaje
+  
+    if (dates.length > 0) {
+      if (pesos.weight === pesos.weightGoal) {
+
+        let diferencia = pesos.weightGoal - mas_actual;
+        if (diferencia < 0) {
+
+          diferencia = diferencia * -1;
+          nuevoPorcentaje = 100 - (diferencia / pesos.weightGoal) * 100
+        } else if (diferencia === 0) {
+          nuevoPorcentaje = 100
+        } else {
+          nuevoPorcentaje = 100 - (diferencia / pesos.weightGoal) * 100
+        }
+      } else {
+        nuevoPorcentaje = (100 * (pesos.weight - mas_actual)) / (pesos.weight - pesos.weightGoal)
+      }
+    } else {
+      if (pesos.weight === pesos.weightGoal) {
+        nuevoPorcentaje = 100
+      } else {
+        nuevoPorcentaje = 0
+      }
+    }
+
+    nuevoPorcentaje = nuevoPorcentaje.toFixed(2)
+    nuevoPorcentaje = parseFloat(nuevoPorcentaje);
+    setPorcentaje(nuevoPorcentaje)
   }
 
-  // visualizar el Modal
   const handlePress = () => {
     setModalVisible(true)
   }
 
-  // Cuando se agrega o cancela el peso actual
   const limpiar = () => {
     setModalVisible(false)
     setActual('')
+    
   }
 
-  // Cuando se agrega un check-in
   const handleButtonPress = () => {
     const peso_actual = actual
     const currentDate = new Date()
@@ -126,6 +118,13 @@ const Report = () => {
     } else {
       setDates([newDate, ...dates])
     }
+      // Actualizar weightActual 
+      const weight_actual = dates.length === 0 ? physicalInfo.weight : newDate.split(',')[1];
+      setPhysicalInfo(prevPhysicalInfo => ({
+        ...prevPhysicalInfo,
+        weightActual: weight_actual,
+      }))
+
   }
 
   // Para renderisar los bloques
@@ -138,6 +137,7 @@ const Report = () => {
     }, [])
   }
 
+  //////////////////////////////////////////
   const datesRef = useRef(dates)
 
   useEffect(() => {
@@ -191,11 +191,15 @@ const Report = () => {
     return unsubscribe
   }, [navigation, setUsuarios, usuarioActual.username, usuarios])
 
+  ///////////////////////////////////////////////////
+
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>CHECK-IN</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => { handlePress(); verificar_dates() }}>
+        <TouchableOpacity style={styles.button} onPress={() => { handlePress()}}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
         {/* Pedir el peso actual */}
@@ -367,10 +371,10 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
-    marginTop: 10 // Ajusta el espacio entre el texto y la imagen
+    marginTop: 10 
   },
   goalContainer: {
-    marginTop: 30, // Espacio entre el contenedor de fechas y el contenedor de objetivos
+    marginTop: 30, 
     alignItems: 'center',
     fontSize: 28
   },
