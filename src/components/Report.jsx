@@ -14,6 +14,7 @@ const Report = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [physicalInfo, setPhysicalInfo] = useState({})
   const [regDiaries, setRegDiaries] = useState([])
+  const [porcentaje, setPorcentaje] = useState(0)
 
   const [actual, setActual] = useState('')
   const [dates, setDates] = useState([])
@@ -21,16 +22,56 @@ const Report = () => {
   const peso = physicalInfo.weight
   const peso_meta = physicalInfo.weightGoal
   
+  
   const pesos = {
     weight : physicalInfo.weight,
     weightGoal : physicalInfo.weightGoal,
-    weightActual : 70
-    
+    weightActual : 55
   }
+
+  
 
   useEffect(() => {
     getPhysicalInfoUser()
     getRegDiaryByUser()
+    let mas_actual = pesos.weight
+    let nuevoPorcentaje 
+
+    if (dates.length > 0) {
+      mas_actual = dates[0].split(',')[1]
+      if (pesos.weight === pesos.weightGoal) {
+        let diferencia = pesos.weightGoal - mas_actual;
+
+        if (diferencia < 0) {
+          diferencia = diferencia * -1;
+          nuevoPorcentaje = (100) - ((diferencia / pesos.weightGoal) * 100);
+          nuevoPorcentaje = nuevoPorcentaje.toFixed(2);
+          setPorcentaje(nuevoPorcentaje);
+        } else 
+          if (diferencia === 0) {
+            nuevoPorcentaje = 100;
+            setPorcentaje(nuevoPorcentaje);
+          } else {
+            nuevoPorcentaje = (100) - ((diferencia / pesos.weightGoal) * 100);
+            nuevoPorcentaje = nuevoPorcentaje.toFixed(2);
+            setPorcentaje(nuevoPorcentaje);
+        }
+      } else {
+        nuevoPorcentaje = (100) * ((pesos.weight - mas_actual) / (pesos.weight - pesos.weightGoal));
+        nuevoPorcentaje = nuevoPorcentaje.toFixed(2);
+        setPorcentaje(nuevoPorcentaje);
+      }
+    } else {
+      if (pesos.weight === pesos.weightGoal) {
+        nuevoPorcentaje = 100;
+        nuevoPorcentaje = nuevoPorcentaje;
+        setPorcentaje(nuevoPorcentaje);
+      } else {
+        nuevoPorcentaje = 0;
+        nuevoPorcentaje = nuevoPorcentaje;
+        setPorcentaje(nuevoPorcentaje);
+      }
+    }
   }, [])
 
   const getPhysicalInfoUser = async () => {
@@ -228,14 +269,13 @@ const Report = () => {
           <View style={{ marginRight: 20 }}>
             <View style={styles.ProgressCircle}>
             <ProgressCircle
-              percent={50}
+              percent={porcentaje}
               radius={50}
               borderWidth={14}
               color='#268de8'
               shadowColor='#E8E8E8'
               bgColor='#fff'
-            >
-              
+            > 
             </ProgressCircle>
           </View>
           </View>
@@ -255,32 +295,7 @@ const Report = () => {
         </View>
       </View>
       {/* Porcentaje de progreso */}
-
-      {dates.length > 0
-        ? (
-            peso === peso_meta
-              ? (
-                  peso_meta - dates[0].split(',')[1] < 0
-                    ? (
-                      <Text style={styles.progressText}>{((100) - (((peso_meta - dates[0].split(',')[1]) / peso_meta) * -100)).toFixed(2)}%</Text>
-                      )
-                    : peso_meta - dates[0].split(',')[1] === 0
-                      ? (
-                        <Text style={styles.progressText}>{100}.00%</Text>
-                        )
-                      : (
-                        <Text style={styles.progressText}>{((100) - (((peso_meta - dates[0].split(',')[1]) / peso_meta) * 100)).toFixed(2)}%</Text>
-                        )
-                )
-              : (
-                <Text style={styles.progressText}>{(100 * ((peso - dates[0].split(',')[1]) / (peso - peso_meta))).toFixed(2)}%</Text>
-                )
-          )
-        : peso === peso_meta
-          ? (
-            <Text style={styles.progressText}>{100}.00%</Text>)
-          : (<Text style={styles.progressText}>{0}.00%</Text>)}
-
+          <Text style={styles.progressText}>{porcentaje}%</Text>
       <MenuBar navigation={navigate} />
     </View>
   )
