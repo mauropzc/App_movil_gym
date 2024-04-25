@@ -17,6 +17,7 @@ const Report = () => {
   const [regDiaries, setRegDiaries] = useState([])
   const [actual, setActual] = useState('')
   const [dates, setDates] = useState([])
+  const [dates2, setDates2] = useState([])
   const { usuarios, setUsuarios } = useGlobalContext()
   
   const [porcentaje, setPorcentaje] = useState(0);
@@ -24,9 +25,10 @@ const Report = () => {
   const pesos = {
     weight : physicalInfo.weight,
     weightGoal : physicalInfo.weightGoal,
-    weightActual: dates.length === 0  ? physicalInfo.weight : 70
+    weightActual: dates.length === 0  ? physicalInfo.weight : dates[0].split(',')[1]
   }
 
+  //undefined
   const registerRegdiaries = async () => {
     try {
       const response = await axios.post(`${API_URL}/regDiaries`, {
@@ -34,7 +36,7 @@ const Report = () => {
         weight: parseFloat(actual)
       })
 
-      setDates([...dates, response.data])
+      setDates2([response.data])
     } catch (error) {
       console.log(error)
     }
@@ -60,6 +62,7 @@ const Report = () => {
     } catch (error) {
       console.log(error)
     }
+    
   }
 
   const getRegDiaryByUser = async () => {
@@ -106,6 +109,7 @@ const Report = () => {
 
   const handlePress = () => {
     setModalVisible(true)
+    
   }
 
   const limpiar = () => {
@@ -128,6 +132,7 @@ const Report = () => {
       if (dates.length = 4) {
         setDates([newDate, ...dates])
       }
+
     } else {
       setDates([newDate, ...dates])
     }

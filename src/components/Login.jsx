@@ -47,7 +47,7 @@ const Login = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View>
         <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')} />
         <Text style={styles.title}> Sign In</Text>
@@ -101,7 +101,7 @@ const Login = () => {
         </View>
 
       </View>
-    </ScrollView>
+    </View>
   )
 }
 
