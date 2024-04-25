@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import useGlobalContext from '../hooks/useGlobalContext'
 
@@ -38,7 +38,6 @@ const Perfil = () => {
   }
 
   return (
-    <ScrollView>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>PERSONAL INFORMATION</Text>
@@ -110,7 +109,6 @@ const Perfil = () => {
           <Text style={styles.buttonText}>NEXT</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
   )
 }
 

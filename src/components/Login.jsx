@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert, ScrollView } from 'react-native'
+import { TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 import useGlobalContext from '../hooks/useGlobalContext'
@@ -47,8 +47,7 @@ const Login = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View>
+      <View style={styles.container}>
         <Image style={styles.logo} source={require('./../../assets/img/logo_azul (1).png')} />
         <Text style={styles.title}> Sign In</Text>
         <Text style={styles.labels}>   Username</Text>
@@ -101,7 +100,6 @@ const Login = () => {
         </View>
 
       </View>
-    </ScrollView>
   )
 }
 
