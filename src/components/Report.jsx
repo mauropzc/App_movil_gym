@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button, TextInput, Mod
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import MenuBar from './MenuBar'
-import ProgressCircle from './ProgressCircle'
+import ProgressCircle from 'react-native-progress-circle'
 import useGlobalContext from '../hooks/useGlobalContext'
 import { API_URL } from '@env'
 
@@ -11,20 +11,49 @@ const Report = () => {
   const { navigate } = useNavigation()
   const navigation = useNavigation()
   const { usuarioActual, setUsuarioActual } = useGlobalContext()
+
   const [modalVisible, setModalVisible] = useState(false)
   const [physicalInfo, setPhysicalInfo] = useState({})
   const [regDiaries, setRegDiaries] = useState([])
-
   const [actual, setActual] = useState('')
   const [dates, setDates] = useState([])
+  const [dates2, setDates2] = useState([])
   const { usuarios, setUsuarios } = useGlobalContext()
-  const peso = physicalInfo.weight
-  const peso_meta = physicalInfo.weightGoal
+  
+  const [porcentaje, setPorcentaje] = useState(0);
+
+  const pesos = {
+    weight : physicalInfo.weight,
+    weightGoal : physicalInfo.weightGoal,
+    weightActual: dates.length === 0  ? physicalInfo.weight : dates[0].split(',')[1]
+  }
+
+  //undefined
+  const registerRegdiaries = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/regDiaries`, {
+        iduser: usuarioActual.id,
+        weight: parseFloat(actual)
+      })
+
+      setDates2([response.data])
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     getPhysicalInfoUser()
     getRegDiaryByUser()
+    
   }, [])
+
+  useEffect(() => {
+    // Calcular el porcentaje
+    if (physicalInfo.weight !== undefined) {
+      calcularPorcentaje();
+    }
+  }, [physicalInfo, regDiaries]);
 
   const getPhysicalInfoUser = async () => {
     try {
@@ -33,6 +62,7 @@ const Report = () => {
     } catch (error) {
       console.log(error)
     }
+    
   }
 
   const getRegDiaryByUser = async () => {
@@ -44,23 +74,50 @@ const Report = () => {
     }
   }
 
-  // imprimir los check-in creados
-  const verificar_dates = () => {
-    console.log(dates)
+  const calcularPorcentaje = () => {
+    let mas_actual = pesos.weightActual
+    let nuevoPorcentaje
+  
+    if (dates.length > 0) {
+      if (pesos.weight === pesos.weightGoal) {
+
+        let diferencia = pesos.weightGoal - mas_actual;
+        if (diferencia < 0) {
+
+          diferencia = diferencia * -1;
+          nuevoPorcentaje = 100 - (diferencia / pesos.weightGoal) * 100
+        } else if (diferencia === 0) {
+          nuevoPorcentaje = 100
+        } else {
+          nuevoPorcentaje = 100 - (diferencia / pesos.weightGoal) * 100
+        }
+      } else {
+        nuevoPorcentaje = (100 * (pesos.weight - mas_actual)) / (pesos.weight - pesos.weightGoal)
+      }
+    } else {
+      if (pesos.weight === pesos.weightGoal) {
+        nuevoPorcentaje = 100
+      } else {
+        nuevoPorcentaje = 0
+      }
+    }
+
+    nuevoPorcentaje = nuevoPorcentaje.toFixed(2)
+    nuevoPorcentaje = parseFloat(nuevoPorcentaje);
+    setPorcentaje(nuevoPorcentaje)
   }
 
-  // visualizar el Modal
   const handlePress = () => {
     setModalVisible(true)
+    
   }
 
-  // Cuando se agrega o cancela el peso actual
   const limpiar = () => {
     setModalVisible(false)
     setActual('')
+    
   }
 
-  // Cuando se agrega un check-in
   const handleButtonPress = () => {
     const peso_actual = actual
     const currentDate = new Date()
@@ -75,9 +132,17 @@ const Report = () => {
       if (dates.length = 4) {
         setDates([newDate, ...dates])
       }
+
     } else {
       setDates([newDate, ...dates])
     }
+      // Actualizar weightActual 
+      const weight_actual = dates.length === 0 ? physicalInfo.weight : newDate.split(',')[1];
+      setPhysicalInfo(prevPhysicalInfo => ({
+        ...prevPhysicalInfo,
+        weightActual: weight_actual,
+      }))
+
   }
 
   // Para renderisar los bloques
@@ -90,6 +155,7 @@ const Report = () => {
     }, [])
   }
 
+  //////////////////////////////////////////
   const datesRef = useRef(dates)
 
   useEffect(() => {
@@ -143,11 +209,15 @@ const Report = () => {
     return unsubscribe
   }, [navigation, setUsuarios, usuarioActual.username, usuarios])
 
+  ///////////////////////////////////////////////////
+
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>CHECK-IN</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => { handlePress(); verificar_dates() }}>
+        <TouchableOpacity style={styles.button} onPress={() => { handlePress()}}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
         {/* Pedir el peso actual */}
@@ -171,7 +241,7 @@ const Report = () => {
               />
               <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 <Button title='Cancelar' onPress={() => setModalVisible(false)} />
-                <Button title='Agregar' onPress={() => { limpiar(); handleButtonPress() }} />
+                <Button title='Agregar' onPress={() => { limpiar(); handleButtonPress(); registerRegdiaries() }} />
               </View>
             </View>
           </View>
@@ -219,31 +289,17 @@ const Report = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {/* Usando el componente ProgressCircle */}
           <View style={{ marginRight: 20 }}>
-            {dates.length > 0
-              ? (
-                  peso === peso_meta
-                    ? (
-                        peso_meta - dates[0].split(',')[1] < 0
-                          ? (
-                            <ProgressCircle progress={(100) - (((peso_meta - dates[0].split(',')[1]) / peso_meta) * -100)} size={100} strokeWidth={16} backgroundColor='black' />
-                            )
-                          : peso_meta - dates[0].split(',')[1] === 0
-                            ? (
-                              <ProgressCircle progress={100} size={100} strokeWidth={16} backgroundColor='black' />
-                              )
-                            : (
-                              <ProgressCircle progress={(100) - (((peso_meta - dates[0].split(',')[1]) / peso_meta) * 100)} size={100} strokeWidth={16} backgroundColor='black' />
-                              )
-                      )
-                    : (
-                      <ProgressCircle progress={100 * ((peso - dates[0].split(',')[1]) / (peso - peso_meta))} size={100} strokeWidth={16} backgroundColor='black' />
-                      )
-                )
-              : peso === peso_meta
-                ? (
-                  <ProgressCircle progress={100} size={100} strokeWidth={16} backgroundColor='black' />)
-                : (<ProgressCircle progress={0} size={100} strokeWidth={16} backgroundColor='black' />)}
-            {/* <ProgressCircle progress={porcentaje} size={100} strokeWidth={16} backgroundColor="black" /> */}
+            <View style={styles.ProgressCircle}>
+            <ProgressCircle
+              percent={porcentaje}
+              radius={50}
+              borderWidth={14}
+              color='#268de8'
+              shadowColor='#E8E8E8'
+              bgColor='#fff'
+            > 
+            </ProgressCircle>
+          </View>
           </View>
 
           {/* Información de peso */}
@@ -254,39 +310,14 @@ const Report = () => {
           </View>
           {/* Valores de peso */}
           <View style={{ marginLeft: 10 }}>
-            <Text style={styles.weightValue}>{peso}kg</Text>
-            <Text style={styles.weightValue}>{dates.length === 0 ? peso : dates[0].split(',')[1]}kg</Text>
-            <Text style={styles.weightValue}>{peso_meta}kg</Text>
+            <Text style={styles.weightValue}>{pesos.weight}kg</Text>
+            <Text style={styles.weightValue}>{pesos.weightActual}kg</Text>
+            <Text style={styles.weightValue}>{pesos.weightGoal}kg</Text>
           </View>
         </View>
       </View>
       {/* Porcentaje de progreso */}
-
-      {dates.length > 0
-        ? (
-            peso === peso_meta
-              ? (
-                  peso_meta - dates[0].split(',')[1] < 0
-                    ? (
-                      <Text style={styles.progressText}>{((100) - (((peso_meta - dates[0].split(',')[1]) / peso_meta) * -100)).toFixed(2)}%</Text>
-                      )
-                    : peso_meta - dates[0].split(',')[1] === 0
-                      ? (
-                        <Text style={styles.progressText}>{100}.00%</Text>
-                        )
-                      : (
-                        <Text style={styles.progressText}>{((100) - (((peso_meta - dates[0].split(',')[1]) / peso_meta) * 100)).toFixed(2)}%</Text>
-                        )
-                )
-              : (
-                <Text style={styles.progressText}>{(100 * ((peso - dates[0].split(',')[1]) / (peso - peso_meta))).toFixed(2)}%</Text>
-                )
-          )
-        : peso === peso_meta
-          ? (
-            <Text style={styles.progressText}>{100}.00%</Text>)
-          : (<Text style={styles.progressText}>{0}.00%</Text>)}
-
+          <Text style={styles.progressText}>{porcentaje}%</Text>
       <MenuBar navigation={navigate} />
     </View>
   )
@@ -304,6 +335,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20
+  },
+  ProgressCircle: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#00FF0000',
+    padding: '3%'
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -352,10 +389,10 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
-    marginTop: 10 // Ajusta el espacio entre el texto y la imagen
+    marginTop: 10 
   },
   goalContainer: {
-    marginTop: 30, // Espacio entre el contenedor de fechas y el contenedor de objetivos
+    marginTop: 30, 
     alignItems: 'center',
     fontSize: 28
   },
