@@ -18,7 +18,9 @@ const Ejercicio = () => {
   const getCatExcercises = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${API_URL}/excercises/${idCatExcercise}`)
+      const url = `${API_URL}/excercises/${idCatExcercise}`
+      console.log(url)
+      const response = await axios.get(url)
       setEjercicios(response.data)
     } catch (error) {
       console.log(error)

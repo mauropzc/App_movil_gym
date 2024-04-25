@@ -47,7 +47,7 @@ const Profile = () => {
         <View style={styles.dates}>
           <Image source={require('./../../assets/img/goal.png')} style={{ height: 25, width: 25 }} />
           <Text style={[styles.text, { fontWeight: 'bold' }]}>Goal:</Text>
-          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>meta peso</Text>
+          <Text style={[styles.text, { paddingLeft: 0, width: '40%' }]}>{usuarioActual.weightGoal}</Text>
         </View>
       </View>
 
