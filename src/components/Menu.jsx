@@ -1,67 +1,45 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import useGlobalContext from '../hooks/useGlobalContext'
 import MenuBar from './MenuBar'
 import { API_URL } from '@env'
 
 const Menu = () => {
   const { navigate } = useNavigation()
-  const { count, setCount } = useGlobalContext()
-  const { lastIncrementDate, setLastIncrementDate } = useGlobalContext()
   const [catExcercises, setCatExcercises] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getCatExcercises()
   }, [])
 
   const getCatExcercises = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${API_URL}/catexcercises`)
       setCatExcercises(response.data)
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
   const onPress = (idCatExcercise) => {
     navigate('Ejercicio', { idCatExcercise })
-    incrementCounter()
   }
 
-  const incrementCounter = async () => {
-    console.log('incrementCounter')
-    const today = new Date().toDateString()
-    const lastDate = lastIncrementDate
-
-    console.log(today, lastDate)
-
-    if (lastDate !== today) {
-      // Si la fecha guardada no es igual a la fecha de hoy, aumentamos el contador y actualizamos la fecha guardada
-      setCount(count + 1)
-      setLastIncrementDate(today)
-      setLastIncrementDate(today)
-    }
-  }
-
-  const daysOfWeek = []
-  for (let i = 1; i <= 30; i++) {
-    daysOfWeek.push(i.toString())
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    )
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.containerDays}>
-        <Text style={[styles.tittleText, { top: 4 }]}>Week Goal</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {daysOfWeek.map((day, index) => (
-            <View key={index} style={[styles.circle, index < count ? { backgroundColor: '#268de8' } : null]}>
-              <Text style={[{ color: 'black' }, index < count ? { color: 'white' } : null]}>{day}</Text>
-            </View>
-          ))}
-        </ScrollView>
-      </View>
       <View style={{ height: '74%', top: 35 }}>
         <Text style={styles.tittleText}>Beginner</Text>
         {catExcercises.map((catExcercise) => (
@@ -82,9 +60,7 @@ const Menu = () => {
           </TouchableOpacity>
         ))}
       </View>
-
       <MenuBar navigation={navigate} />
-
     </View>
   )
 }

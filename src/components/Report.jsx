@@ -24,7 +24,20 @@ const Report = () => {
   const pesos = {
     weight : physicalInfo.weight,
     weightGoal : physicalInfo.weightGoal,
-    weightActual: dates.length === 0  ? physicalInfo.weight : dates[0].split(',')[1]
+    weightActual: dates.length === 0  ? physicalInfo.weight : 70
+  }
+
+  const registerRegdiaries = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/regDiaries`, {
+        iduser: usuarioActual.id,
+        weight: parseFloat(actual)
+      })
+
+      setDates([...dates, response.data])
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
@@ -223,7 +236,7 @@ const Report = () => {
               />
               <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 <Button title='Cancelar' onPress={() => setModalVisible(false)} />
-                <Button title='Agregar' onPress={() => { limpiar(); handleButtonPress() }} />
+                <Button title='Agregar' onPress={() => { limpiar(); handleButtonPress(); registerRegdiaries() }} />
               </View>
             </View>
           </View>

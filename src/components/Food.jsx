@@ -1,14 +1,110 @@
-import React from 'react'
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, Image, StyleSheet } from 'react-native'
 import Swiper from 'react-native-swiper'
 import MenuBar from './MenuBar'
 import RNPickerSelect from 'react-native-picker-select'
-import { RadioButton } from 'react-native-paper'
-import ProgressCircle from 'react-native-progress-circle'
 import { useNavigation } from '@react-navigation/native'
+import useGlobalContext from '../hooks/useGlobalContext'
+import axios from 'axios'
+import { API_URL } from '@env'
+import SelectFood from './SelectFood'
+import DailyFood from './DailyFood'
+
+const options = [
+  { label: 'Breakfast', value: 1 },
+  { label: 'Lunch', value: 2 },
+  { label: 'Dinner', value: 3 }
+]
 
 const Food = () => {
   const { navigate } = useNavigation()
+  const { usuarioActual } = useGlobalContext()
+  const [foods, setFoods] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [selectedCatFood, setSelectedCatFood] = useState(1)
+  const [foodsByCategory, setFoodsByCategory] = useState([])
+  const [foodsDiary, setFoodsDiary] = useState([])
+  const [foodDiaryByCatFood, setFoodDiaryByCatFood] = useState(null)
+
+  useEffect(() => {
+    getFoods()
+  }, [])
+
+  const getFoods = async () => {
+    setLoading(true)
+    try {
+      const dataFoods = await axios.get(`${API_URL}/foods`)
+      setFoods(dataFoods.data)
+      const foodsFiltered = dataFoods.data.filter((food) => food.idcatfood === selectedCatFood)
+
+      const dataFoodsDiaries = await axios.get(`${API_URL}/foodDiaries/today/${usuarioActual.id}`)
+      setFoodsDiary([...dataFoodsDiaries.data])
+      setFoodsByCategory(foodsFiltered)
+      setFoodDiaryByCatFood(dataFoodsDiaries.data.find((food) => food.food.idcatfood === selectedCatFood))
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleOnChangeCategory = (idcatfood) => {
+    const foodsFiltered = foods.filter((food) => food.idcatfood === idcatfood)
+    setFoodsByCategory(foodsFiltered)
+    setSelectedCatFood(idcatfood)
+    setFoodDiaryByCatFood(foodsDiary.find((food) => food.food.idcatfood === idcatfood))
+  }
+
+  const selectNewFood = (idfood, foodDiary) => {
+    const auxFood = foods.find((food) => food.id === idfood)
+    if (foodDiary) {
+      const auxFoodDiaryTemp = foodsDiary.map((food) => {
+        if (food.id === foodDiary.id) {
+          food.food = auxFood
+          food.idfood = idfood
+        }
+        return food
+      })
+      setFoodsDiary(auxFoodDiaryTemp)
+      updateFoodDiary(foodDiary, idfood)
+    } else {
+      registerFoodDiary(idfood)
+    }
+  }
+
+  const registerFoodDiary = async (selectedFood) => {
+    try {
+      const response = await axios.post(`${API_URL}/foodDiaries`, {
+        iduser: usuarioActual.id,
+        idfood: selectedFood
+      })
+
+      const newReg = response.data
+      newReg.food = foods.find((food) => food.id === selectedFood)
+      setFoodsDiary([...foodsDiary, newReg])
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const updateFoodDiary = async (currentFood, selectedFood) => {
+    try {
+      await axios.put(`${API_URL}/foodDiaries/${currentFood.id}`, {
+        iduser: usuarioActual.id,
+        idfood: selectedFood
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -29,38 +125,16 @@ const Food = () => {
 
       <Text style={[styles.title, { marginTop: '2%' }]}>DAILY FOOD</Text>
 
-      <View style={styles.body}>
-        <View style={styles.dates}>
-          <Text style={[styles.text]}>Proteins</Text>
-          <Text style={[styles.text]}>Carbs</Text>
-          <Text style={[styles.text]}>Fats</Text>
-        </View>
-        <View style={[styles.dates, { textAlign: 'flex-end' }]}>
-          <Text style={[styles.text, { textAlign: 'right' }]}>10/10 g</Text>
-          <Text style={[styles.text, { textAlign: 'right' }]}>10/10 g</Text>
-          <Text style={[styles.text, { textAlign: 'right' }]}>10/10 g</Text>
-        </View>
-        <View style={styles.ProgressCircle}>
-          <ProgressCircle
-            percent={9}
-            radius={50}
-            borderWidth={7}
-            color='#3399FF'
-            shadowColor='#999'
-            bgColor='#fff'
-          >
-            <Text style={{ fontSize: 15 }}>10/10</Text>
-          </ProgressCircle>
-        </View>
-      </View>
+      <DailyFood
+        foodsDiary={foodsDiary}
+      />
 
       <RNPickerSelect
-        items={[
-          { label: 'Lunch', value: 'lunch' },
-          { label: 'Dinner', value: 'dinner' }
-        ]}
+        items={options}
+        value={selectedCatFood}
+        onValueChange={(value) => handleOnChangeCategory(value)}
+        on
         style={styles.pickerSelect}
-        placeholder={{ label: 'Brekfast', value: 'breakfast' }}
         useNativeAndroidPickerStyle={false}
         Icon={() => (
           <Image
@@ -70,24 +144,12 @@ const Food = () => {
         )}
       />
 
-      <ScrollView style={styles.scrollView}>
-        <View>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop: '2%' }}>
-            <TouchableOpacity style={styles.recipe}>
-              <Text style={styles.recipeTitle}>Recipe 1</Text>
-              <Text style={styles.ingredients}>Chese</Text>
-            </TouchableOpacity>
-            <RadioButton
-              value='recipe'
-              status='checked'
-              color='#268de8'
-            />
-          </View>
-        </View>
-      </ScrollView>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Save</Text>
-      </TouchableOpacity>
+      <SelectFood
+        foodsByCategory={foodsByCategory}
+        foodDiary={foodDiaryByCatFood}
+        selectNewFood={selectNewFood}
+      />
+
       <View style={{ width: '100%', height: '11%' }} />
       <MenuBar navigation={navigate} />
     </View>
